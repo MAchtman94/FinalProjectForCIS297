@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="Combat.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Combat"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid>
+        <Button HorizontalAlignment="Center" Margin="0,557,0,0" VerticalAlignment="Top" Click="HowToPlay">How do I play?</Button>
+        <Button HorizontalAlignment="Center" Margin="0,354,0,0" VerticalAlignment="Top" Click="NewGame">New Game</Button>
+        <Button HorizontalAlignment="Center" Margin="0,660,0,0" VerticalAlignment="Top" Click="Credits">Credits</Button>
+        <Frame x:Name="CreditsPage"></Frame>
+        <Frame x:Name="HowToPlayPage"></Frame>
+        <Frame x:Name="NewGamePage"></Frame>
+    </Grid>
+</Page>
