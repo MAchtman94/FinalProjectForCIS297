@@ -9,8 +9,8 @@ namespace Combat
 {
     public class BuildGame
     {
-        private Vehicle character;
-        private HealthBar healthBar;
+        private Tank tank;
+        private Points points;
         private List<Walls> walls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
@@ -18,9 +18,9 @@ namespace Combat
         public BuildGame()
         {
             drawables = new List<IDrawable>();
-            character = new Vehicle(100, 100, 0, 0);
+            tank = new Tank(100, 100, 0, 0);
 
-            drawables.Add(character);
+            drawables.Add(tank);
         }
         public void DrawGame(CanvasDrawingSession canvas)
         {
@@ -46,14 +46,14 @@ namespace Combat
         }
 
         //Character player
-        public class Vehicle : ICollidable, IDrawable
+        public class Tank : ICollidable, IDrawable
         {
             public int X { get; set; }
             public int Y { get; set; }
             public int Height { get; set; }
             public int Width { get; set; }
 
-            public Vehicle(int x, int y, int height, int width)
+            public Tank(int x, int y, int height, int width)
             {
                 X = x;
                 Y = y;
@@ -64,6 +64,27 @@ namespace Combat
             public bool Collides(int x, int y, int width, int height)
             {
                 throw new NotImplementedException();
+            }
+
+            public void Draw(CanvasDrawingSession canvas)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class Plane : IDrawable
+        {
+            public int X { get; set; }
+            public int Y { get; set; }
+            public int Height { get; set; }
+            public int Width { get; set; }
+
+            public Plane(int x, int y, int height, int width)
+            {
+                X = x;
+                Y = y;
+                Height = height;
+                Width = width;
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -101,7 +122,7 @@ namespace Combat
          } */
 
         //This is the energy bar for the character
-        public class HealthBar : IDrawable
+        public class Points : IDrawable
         {
             public void Draw(CanvasDrawingSession canvas)
             {
