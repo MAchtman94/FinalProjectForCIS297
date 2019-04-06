@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Microsoft.Graphics.Canvas;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ET_The_Game
+namespace Combat
 {
     public class BuildGame
     {
@@ -115,7 +116,7 @@ namespace ET_The_Game
             public int Height { get; set; }
             public int Width { get; set; }
 
-            public Vehicle(int x, int y, int height, int width)
+            public Bullets(int x, int y, int height, int width)
             {
                 X = x;
                 Y = y;
