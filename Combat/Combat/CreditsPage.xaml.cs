@@ -29,7 +29,7 @@ namespace Combat
 
         private void BackButton(object sender, RoutedEventArgs e)
         {
-            var CreditsView = new MainPage();
+            MainPage.Content = new MainPage();
 
             //MainPage.Content = new MainPage();
         }

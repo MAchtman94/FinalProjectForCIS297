@@ -41,11 +41,6 @@ namespace Combat
             bool Collides(int x, int y, int width, int height);
         }
 
-        public interface IDrawableUdnerground
-        {
-            void Draw(CanvasDrawingSession canvas);
-        }
-
         //Character player
         public class Tank : ICollidable, IDrawable
         {
@@ -69,7 +64,7 @@ namespace Combat
 
             public void Draw(CanvasDrawingSession canvas)
             {
-                canvas.DrawImage(tankIm, )
+               // canvas.DrawImage(tankIm, )
             }
         }
 
