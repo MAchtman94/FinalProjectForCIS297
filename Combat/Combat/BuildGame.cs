@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace Combat
 {
@@ -18,7 +19,7 @@ namespace Combat
         public BuildGame()
         {
             drawables = new List<IDrawable>();
-            tank = new Tank(100, 100, 0, 0);
+            tank = new Tank(100, 100, 50, 50);
 
             drawables.Add(tank);
         }
@@ -68,7 +69,7 @@ namespace Combat
 
             public void Draw(CanvasDrawingSession canvas)
             {
-                throw new NotImplementedException();
+                canvas.DrawImage(tankIm, )
             }
         }
 
@@ -93,7 +94,6 @@ namespace Combat
             }
         }
 
-        //This the boundary of the form, once touched it will take user to the next form
         public class Walls : ICollidable, IDrawable
         {
             public int X { get; set; }
@@ -121,7 +121,7 @@ namespace Combat
 
          } */
 
-        //This is the energy bar for the character
+        //This is the score keeper for the character
         public class Points : IDrawable
         {
             public void Draw(CanvasDrawingSession canvas)
