@@ -31,7 +31,13 @@ namespace Combat
             pointsPlayer = new Points();
             pointsComputer = new Points();
             playerBullets = new Bullets(20, 20, 5, 5, Colors.Blue);
-            //computerBullets = new Bullets(600, 600, 30, 20, Colors.Orange);
+            playerBullets.TravelingLeftWard = false;
+            playerBullets.TravelingUpward = false;
+            playerBullets.TravelingDownward = false;
+            computerBullets = new Bullets(900, 600, 5, 5, Colors.Orange);
+            computerBullets.TravelingLeftWard = true;
+            computerBullets.TravelingUpward = false;
+            computerBullets.TravelingDownward = false;
             //playerTank = new Tank(100, 100, 50, 50, Colors.Blue);
 
             //Boundary of game
@@ -43,9 +49,9 @@ namespace Combat
             drawables.Add(outsideWall);
             walls.Add(outsideWall);
 
-            //Adding bullet
+            //Adding bullets
             drawables.Add(playerBullets);
-            //drawables.Add(computerBullets);
+            drawables.Add(computerBullets);
 
 
 
@@ -54,7 +60,8 @@ namespace Combat
 
         public void Update()
         {
-            playerBullets.X += 1;
+            playerBullets.Update();
+            computerBullets.Update();
         }
 
         public void DrawGame(CanvasDrawingSession canvas)
@@ -175,6 +182,10 @@ namespace Combat
             public int Width { get; set; }
             public Color Color { get; set; }
 
+            public bool TravelingDownward { get; set; }
+            public bool TravelingLeftWard { get; set; }
+            public bool TravelingUpward { get; set; }
+
             public Bullets(int x, int y, int height, int width, Color color)
             {
                 X = x;
@@ -182,6 +193,27 @@ namespace Combat
                 Height = height;
                 Width = width;
                 Color = color;
+            }
+
+            public void Update()
+            {
+                //Determine what position user is going.  Bullets can only go in one direction
+                if (TravelingDownward)
+                {
+                    Y += 1;
+                }
+                else if (TravelingUpward)
+                {
+                    Y -= 1;
+                }
+                else if (TravelingLeftWard)
+                {
+                    X -= 1;
+                }
+                else
+                {
+                    X += 1;
+                }
             }
 
             public bool Collides(int x, int y, int height, int width)
