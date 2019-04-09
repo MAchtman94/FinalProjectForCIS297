@@ -31,13 +31,19 @@ namespace Combat
             pointsPlayer = new Points();
             pointsComputer = new Points();
             playerBullets = new Bullets(20, 20, 5, 5, Colors.Blue);
+
+            //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
             playerBullets.TravelingUpward = false;
             playerBullets.TravelingDownward = false;
+
             computerBullets = new Bullets(900, 600, 5, 5, Colors.Orange);
+
+            //Automatically placing the bullets to move towards the left on X-Axis
             computerBullets.TravelingLeftWard = true;
             computerBullets.TravelingUpward = false;
             computerBullets.TravelingDownward = false;
+
             //playerTank = new Tank(100, 100, 50, 50, Colors.Blue);
 
             //Boundary of game
@@ -218,7 +224,7 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                throw new NotImplementedException();
+                //return x >= X && x <= Width && y >= Y && y <= Height;
             }
 
             public void Draw(CanvasDrawingSession canvas)
