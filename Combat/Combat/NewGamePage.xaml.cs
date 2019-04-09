@@ -6,6 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -32,10 +33,14 @@ namespace Combat
             buildGame = new BuildGame();
         }
 
-        void canvasControl_Draw(CanvasControl sender, CanvasDrawEventArgs args)
+        private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
         {
             buildGame.DrawGame(args.DrawingSession);
-            //args.DrawingSession.DrawLine()
-}
+        }
+
+        private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        {
+            buildGame.Update();
+        }
     }
 }

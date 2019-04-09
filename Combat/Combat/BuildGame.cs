@@ -4,14 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace Combat
 {
     public class BuildGame
     {
-        private Tank tank;
-        private Points points;
+        private Tank playerTank;
+        private Tank otherTank;
+        private Points pointsPlayer;
+        private Points pointsComputer;
+        private Bullets playerBullets;
+        private Bullets computerBullets;
         private List<Walls> walls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
@@ -19,10 +24,39 @@ namespace Combat
         public BuildGame()
         {
             drawables = new List<IDrawable>();
-            tank = new Tank(100, 100, 50, 50);
+            walls = new List<Walls>();
+            collidables = new List<ICollidable>();
+            playerTank = new Tank(5, 5, 5, 5, Colors.Black);
+            otherTank = new Tank(5, 6, 6, 6, Colors.Blue);
+            pointsPlayer = new Points();
+            pointsComputer = new Points();
+            playerBullets = new Bullets(20, 20, 5, 5, Colors.Blue);
+            //computerBullets = new Bullets(600, 600, 30, 20, Colors.Orange);
+            //playerTank = new Tank(100, 100, 50, 50, Colors.Blue);
 
-            drawables.Add(tank);
+            //Boundary of game
+            var outsideWall = new Walls(10,10,1000,700, Colors.Black);
+
+            //Bullets, need to be animated to move along X-Axis
+
+            //Adding outside wall
+            drawables.Add(outsideWall);
+            walls.Add(outsideWall);
+
+            //Adding bullet
+            drawables.Add(playerBullets);
+            //drawables.Add(computerBullets);
+
+
+
+            //drawables.Add(playerTank);
         }
+
+        public void Update()
+        {
+            playerBullets.X += 1;
+        }
+
         public void DrawGame(CanvasDrawingSession canvas)
         {
             foreach (var drawable in drawables)
@@ -38,7 +72,7 @@ namespace Combat
 
         public interface ICollidable
         {
-            bool Collides(int x, int y, int width, int height);
+            bool Collides(int x, int y, int height, int width);
         }
 
         //Character player
@@ -48,23 +82,25 @@ namespace Combat
             public int Y { get; set; }
             public int Height { get; set; }
             public int Width { get; set; }
+            public Color Colors { get; set; }
 
-            public Tank(int x, int y, int height, int width)
+            public Tank(int x, int y, int height, int width, Color color)
             {
                 X = x;
                 Y = y;
                 Height = height;
                 Width = width;
+                color = Colors;
             }
 
-            public bool Collides(int x, int y, int width, int height)
+            public bool Collides(int x, int y, int height, int width)
             {
                 throw new NotImplementedException();
             }
 
             public void Draw(CanvasDrawingSession canvas)
             {
-               // canvas.DrawImage(tankIm, )
+                //canvas.DrawEllipse(X, Y, Height, Width, Colors, 3);
             }
         }
 
@@ -93,21 +129,27 @@ namespace Combat
         {
             public int X { get; set; }
             public int Y { get; set; }
+            public int Height { get; set; }
+            public int Width { get; set; }
+            public Color Color { get; set; }
 
-            public Walls(int x, int y)
+            public Walls(int x, int y, int height, int width, Color color)
             {
                 X = x;
                 Y = y;
+                Height = height;
+                Width = width;
+                Color = color;
             }
 
-            public bool Collides(int x, int y, int width, int height)
+            public bool Collides(int x, int y, int height, int width)
             {
                 throw new NotImplementedException();
             }
 
             public void Draw(CanvasDrawingSession canvas)
             {
-                throw new NotImplementedException();
+                canvas.DrawRectangle(X, Y, Height, Width, Color);
             }
         }
 
@@ -131,23 +173,25 @@ namespace Combat
             public int Y { get; set; }
             public int Height { get; set; }
             public int Width { get; set; }
+            public Color Color { get; set; }
 
-            public Bullets(int x, int y, int height, int width)
+            public Bullets(int x, int y, int height, int width, Color color)
             {
                 X = x;
                 Y = y;
                 Height = height;
                 Width = width;
+                Color = color;
             }
 
-            public bool Collides(int x, int y, int width, int height)
+            public bool Collides(int x, int y, int height, int width)
             {
                 throw new NotImplementedException();
             }
 
             public void Draw(CanvasDrawingSession canvas)
             {
-                throw new NotImplementedException();
+                canvas.DrawRectangle(X, Y, Height, Width, Color);
             }
         }
 
