@@ -1,0 +1,23 @@
+﻿<Page
+    x:Class="ET_The_Game.InformationPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ET_The_Game"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <Grid HorizontalAlignment="Stretch" Margin="0,0,10,10" VerticalAlignment="Stretch">
+        <Frame x:Name="MainPage">
+            <Button HorizontalAlignment="Center" Margin="0,63,0,0" VerticalAlignment="Top" Height="63" Width="378" Click="BackButton">Return to Main Page</Button>
+        </Frame>
+        <TextBlock Margin="67,153,38.2,260.2">
+                Help ET escape Earth by finding the three pieces of his telephone to dial home.
+                <LineBreak/>
+                However, some people do not want ET to escape and wish to run experiments on him.
+                <LineBreak/>
+                Help ET escape Earth and return home!
+        </TextBlock>
+    </Grid>
+</Page>

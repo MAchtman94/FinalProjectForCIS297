@@ -96,6 +96,12 @@ namespace Combat
             public int Width { get; set; }
             public Color Colors { get; set; }
 
+            //Determine front of tank position
+            bool TankUpward { get; set; }
+            bool TankDownward { get; set; }
+            bool TankLeftward { get; set; }
+            bool TankRightward { get; set; }
+
             public Tank(int x, int y, int height, int width, Color color)
             {
                 X = x;
@@ -113,6 +119,8 @@ namespace Combat
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.FillRectangle(X, Y, Height, Width, Colors);
+
+                canvas.FillRectangle(X, Y + 20, Height + 50, Width - 40, Colors);
             }
         }
 
