@@ -132,7 +132,13 @@
     <Compile Include="NewGamePage.xaml.cs">
       <DependentUpon>NewGamePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="NumberPad.xaml.cs">
+      <DependentUpon>NumberPad.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="StageEditPage.xaml.cs">
+      <DependentUpon>StageEditPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -169,6 +175,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="NewGamePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="NumberPad.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StageEditPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

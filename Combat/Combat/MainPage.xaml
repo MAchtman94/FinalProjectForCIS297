@@ -12,8 +12,10 @@
         <Button HorizontalAlignment="Center" Margin="0,557,0,0" VerticalAlignment="Top" Click="HowToPlay">How do I play?</Button>
         <Button HorizontalAlignment="Center" Margin="0,354,0,0" VerticalAlignment="Top" Click="NewGame">New Game</Button>
         <Button HorizontalAlignment="Center" Margin="0,660,0,0" VerticalAlignment="Top" Click="Credits">Credits</Button>
+        <Button HorizontalAlignment="Center" Margin="0,450,0,0" VerticalAlignment="Top" Click="Button_Click" >Stage Edit</Button>
         <Frame x:Name="CreditsPage"></Frame>
         <Frame x:Name="HowToPlayPage"></Frame>
         <Frame x:Name="NewGamePage"></Frame>
+        <Frame x:Name="StageEditPage"></Frame>
     </Grid>
 </Page>

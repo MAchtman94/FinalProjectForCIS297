@@ -41,5 +41,10 @@ namespace Combat
         {
             NewGamePage.Content = new NewGamePage();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            StageEditPage.Content = new StageEditPage();
+        }
     }
 }

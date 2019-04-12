@@ -30,14 +30,14 @@ namespace Combat
             otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
             pointsPlayer = new Points();
             pointsOther = new Points();
-            playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 5, 5, Colors.Blue);
+            playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
 
             //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
             playerBullets.TravelingUpward = false;
             playerBullets.TravelingDownward = false;
 
-            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 5, 5, Colors.Orange);
+            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
 
             //Automatically placing the bullets to move towards the left on X-Axis
             otherBullets.TravelingLeftWard = false;
@@ -46,12 +46,15 @@ namespace Combat
 
             //Boundary of game
             var outsideWall = new Walls(10,10,1000,700, Colors.Black);
+            //var insideWallLeftSide = new Walls(100, 100, 50, 50, Colors.Black);
 
             //Bullets, need to be animated to move along X-Axis
 
             //Adding outside wall
             drawables.Add(outsideWall);
             walls.Add(outsideWall);
+            //drawables.Add(insideWallLeftSide);
+            //walls.Add(insideWallLeftSide);
 
             //Adding bullets
             drawables.Add(playerBullets);

@@ -20,17 +20,11 @@ namespace Combat
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class HowToPlayPage : Page
+    public sealed partial class NumberPad : Page
     {
-        public HowToPlayPage()
+        public NumberPad()
         {
             this.InitializeComponent();
-        }
-
-        private void BackButton(object sender, RoutedEventArgs e)
-        {
-            //MainPage.Content = new MainPage();
-            //HowToPlayView.Content = null;
         }
     }
 }
