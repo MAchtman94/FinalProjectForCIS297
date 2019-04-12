@@ -30,17 +30,17 @@ namespace Combat
             otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
             pointsPlayer = new Points();
             pointsOther = new Points();
-            playerBullets = new Bullets(20, 20, 5, 5, Colors.Blue);
+            playerBullets = new Bullets(playerTank.X, playerTank.Y, 5, 5, Colors.Blue);
 
             //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
             playerBullets.TravelingUpward = false;
             playerBullets.TravelingDownward = false;
 
-            otherBullets = new Bullets(900, 600, 5, 5, Colors.Orange);
+            otherBullets = new Bullets(otherTank.X, otherTank.Y + 20, 5, 5, Colors.Orange);
 
             //Automatically placing the bullets to move towards the left on X-Axis
-            otherBullets.TravelingLeftWard = true;
+            otherBullets.TravelingLeftWard = false;
             otherBullets.TravelingUpward = false;
             otherBullets.TravelingDownward = false;
 
