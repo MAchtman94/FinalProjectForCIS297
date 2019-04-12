@@ -26,18 +26,18 @@ namespace Combat
             drawables = new List<IDrawable>();
             walls = new List<Walls>();
             collidables = new List<ICollidable>();
-            playerTank = new Tank(30, 30, 100, 100, Colors.Black);
+            playerTank = new Tank(30, 30, 60, 60, Colors.Black);
             otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
             pointsPlayer = new Points();
             pointsOther = new Points();
-            playerBullets = new Bullets(playerTank.X, playerTank.Y, 5, 5, Colors.Blue);
+            playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 5, 5, Colors.Blue);
 
             //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
             playerBullets.TravelingUpward = false;
             playerBullets.TravelingDownward = false;
 
-            otherBullets = new Bullets(otherTank.X, otherTank.Y + 20, 5, 5, Colors.Orange);
+            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 5, 5, Colors.Orange);
 
             //Automatically placing the bullets to move towards the left on X-Axis
             otherBullets.TravelingLeftWard = false;
