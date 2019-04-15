@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Gaming.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 
 namespace Combat
 {
     public class BuildGame
-    {
+    { 
         private Tank playerTank;
         private Tank otherTank;
         private Points pointsPlayer;
@@ -21,6 +22,10 @@ namespace Combat
         private List<InteriorWalls> interiorWalls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
+
+        private bool gameOver;
+
+        private Gamepad controller;
 
         public BuildGame()
         {
@@ -76,6 +81,17 @@ namespace Combat
 
         public void Update()
         {
+            //Figuring out movement?
+            /*
+            if (Gamepad.Gamepads.Count > 0)
+            {
+                controller = Gamepad.Gamepads.First();
+
+                var controls = controller.GetCurrentReading();
+                playerTank.X += (int)(controls.LeftThumbstickX * 5);
+                playerTank.Y += (int)(controls.LeftThumbstickY * 5);
+            }*/
+
             playerBullets.Update();
             otherBullets.Update();
         }
