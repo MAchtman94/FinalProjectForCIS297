@@ -17,14 +17,16 @@ namespace Combat
         private Points pointsOther;
         private Bullets playerBullets;
         private Bullets otherBullets;
-        private List<Walls> walls;
+        private List<ExteriorWalls> exteriorWalls;
+        private List<InteriorWalls> interiorWalls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
 
         public BuildGame()
         {
             drawables = new List<IDrawable>();
-            walls = new List<Walls>();
+            exteriorWalls = new List<ExteriorWalls>();
+            interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
             playerTank = new Tank(30, 30, 60, 60, Colors.Black);
             otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
@@ -45,16 +47,22 @@ namespace Combat
             otherBullets.TravelingDownward = false;
 
             //Boundary of game
-            var outsideWall = new Walls(10,10,1000,700, Colors.Black);
-            //var insideWallLeftSide = new Walls(100, 100, 50, 50, Colors.Black);
+            var outsideWall = new ExteriorWalls(10,10,1000,700, Colors.Black);
+            var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow);
+            var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
+           // var insideWallRightSide = new InteriorWalls(100, 50, 50, 100, Colors.Black);
 
             //Bullets, need to be animated to move along X-Axis
 
             //Adding outside wall
             drawables.Add(outsideWall);
-            walls.Add(outsideWall);
-            //drawables.Add(insideWallLeftSide);
-            //walls.Add(insideWallLeftSide);
+            exteriorWalls.Add(outsideWall);
+            drawables.Add(fillInWall);
+            interiorWalls.Add(fillInWall);
+            drawables.Add(insideWallLeftSide);
+            interiorWalls.Add(insideWallLeftSide);
+           // drawables.Add(insideWallRightSide);
+           // interiorWalls.Add(insideWallRightSide);
 
             //Adding bullets
             drawables.Add(playerBullets);
@@ -127,28 +135,7 @@ namespace Combat
             }
         }
 
-        public class Plane : IDrawable
-        {
-            public int X { get; set; }
-            public int Y { get; set; }
-            public int Height { get; set; }
-            public int Width { get; set; }
-
-            public Plane(int x, int y, int height, int width)
-            {
-                X = x;
-                Y = y;
-                Height = height;
-                Width = width;
-            }
-
-            public void Draw(CanvasDrawingSession canvas)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public class Walls : ICollidable, IDrawable
+        public class ExteriorWalls : ICollidable, IDrawable
         {
             public int X { get; set; }
             public int Y { get; set; }
@@ -156,7 +143,7 @@ namespace Combat
             public int Width { get; set; }
             public Color Color { get; set; }
 
-            public Walls(int x, int y, int height, int width, Color color)
+            public ExteriorWalls(int x, int y, int height, int width, Color color)
             {
                 X = x;
                 Y = y;
@@ -173,6 +160,34 @@ namespace Combat
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.DrawRectangle(X, Y, Height, Width, Color);
+            }
+        }
+
+        public class InteriorWalls : ICollidable, IDrawable
+        {
+            public int X { get; set; }
+            public int Y { get; set; }
+            public int Height { get; set; }
+            public int Width { get; set; }
+            public Color Color { get; set; }
+
+            public InteriorWalls(int x, int y, int height, int width, Color color)
+            {
+                X = x;
+                Y = y;
+                Height = height;
+                Width = width;
+                Color = color;
+            }
+
+            public bool Collides(int x, int y, int height, int width)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void Draw(CanvasDrawingSession canvas)
+            {
+                canvas.FillRectangle(X, Y, Height, Width, Color);
             }
         }
 

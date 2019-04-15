@@ -23,14 +23,13 @@ namespace Combat
     /// </summary>
     public sealed partial class StageEditPage : Page
     {
+        BuildGame buildGame;
+
         public StageEditPage()
         {
             this.InitializeComponent();
-        }
 
-        private void verifyTextValue()
-        {
-
+            buildGame = new BuildGame();
         }
 
         private void X_CoordinateBox_TextChanged(object sender, TextChangedEventArgs e)
