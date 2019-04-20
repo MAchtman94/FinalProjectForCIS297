@@ -1,17 +1,19 @@
 ﻿using Microsoft.Graphics.Canvas;
 using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Gaming.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace Combat
 {
     public class BuildGame
-    { 
+    {
         private Tank playerTank;
         private Tank otherTank;
         private Points pointsPlayer;
@@ -52,10 +54,10 @@ namespace Combat
             otherBullets.TravelingDownward = false;
 
             //Boundary of game
-            var outsideWall = new ExteriorWalls(10,10,1000,700, Colors.Black);
+            var outsideWall = new ExteriorWalls(10, 10, 1000, 700, Colors.Black);
             var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow);
             var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
-           // var insideWallRightSide = new InteriorWalls(100, 50, 50, 100, Colors.Black);
+            // var insideWallRightSide = new InteriorWalls(100, 50, 50, 100, Colors.Black);
 
             //Bullets, need to be animated to move along X-Axis
 
@@ -66,8 +68,8 @@ namespace Combat
             interiorWalls.Add(fillInWall);
             drawables.Add(insideWallLeftSide);
             interiorWalls.Add(insideWallLeftSide);
-           // drawables.Add(insideWallRightSide);
-           // interiorWalls.Add(insideWallRightSide);
+            // drawables.Add(insideWallRightSide);
+            // interiorWalls.Add(insideWallRightSide);
 
             //Adding bullets
             drawables.Add(playerBullets);
@@ -77,22 +79,41 @@ namespace Combat
 
             drawables.Add(playerTank);
             drawables.Add(otherTank);
+
         }
 
         public void Update()
         {
-            //Figuring out movement?
-            /*
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
 
                 var controls = controller.GetCurrentReading();
+
+                //Trying to have a variable of game buton and link it to the button A
+                var controlButton = controller.GetButtonLabel(GamepadButtons.A);
+
+                controls.Buttons = (GamepadButtons)controlButton;
+
                 playerTank.X += (int)(controls.LeftThumbstickX * 5);
                 playerTank.Y += (int)(controls.LeftThumbstickY * 5);
-            }*/
 
-            playerBullets.Update();
+                playerTank.X += (int)(controls.RightThumbstickX * 5);
+
+                otherTank.X += (int)(controls.LeftThumbstickX * 5);
+                otherTank.Y += (int)(controls.LeftThumbstickY * 5);
+            }
+
+            //bool isButtonPressed;
+
+            /*if (isButtonPressed == true)
+            {
+                playerBullets.Update();
+            }
+            */
+            //var control = controller.GetButtonLabel(GamepadButtons.A);
+
+            //if (control)
             otherBullets.Update();
         }
 
@@ -150,6 +171,12 @@ namespace Combat
                 canvas.FillRectangle(X, Y + 20, Height + 50, Width - 40, Colors);
             }
         }
+
+        public class Keyboard
+        {
+            private Keyboard keyboard { get; set; }
+        }
+
 
         public class ExteriorWalls : ICollidable, IDrawable
         {
@@ -232,6 +259,8 @@ namespace Combat
             public bool TravelingDownward { get; set; }
             public bool TravelingLeftWard { get; set; }
             public bool TravelingUpward { get; set; }
+
+
 
             //Looking at a diagonal view, only use in Y-Axis change views
             public bool DiagnolTravelRight { get; set; }
