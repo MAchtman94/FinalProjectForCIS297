@@ -88,6 +88,7 @@ namespace Combat
                 otherTank.X += (int)(controls.LeftThumbstickX * 5);
                 otherTank.Y += (int)(controls.LeftThumbstickY * -5);
 
+
                 //Debug mode does not like the A button....using B button for bullet firing
 
                 if (controls.Buttons.HasFlag(GamepadButtons.B))
@@ -129,6 +130,8 @@ namespace Combat
 
                 //bool isButtonPressed;
 
+                playerBullets.Update();
+                otherBullets.Update();
             }
         }
 
@@ -210,7 +213,8 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                throw new NotImplementedException();
+                // Want to test if either the X or Y intersect exactly
+                return (x == X && x <= Width) || (y == Y && y <= Height);
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -238,7 +242,8 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                throw new NotImplementedException();
+                // Same idea/concept of exterior wall collision function
+                return (x == X && x <= Width) || (y == Y && y <= Height);
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -287,6 +292,7 @@ namespace Combat
             public void Update()
             {
                 //Determine what position user is going.  Bullets can only go in one direction
+
                 if (TravelingDownward)
                 {
                     if (DiagnolTravelLeft)
@@ -307,7 +313,7 @@ namespace Combat
                     {
                         Y -= 1;
                         X -= 1;
-       
+
                     }
                     else if (DiagnolTravelRight)
                     {
@@ -328,7 +334,8 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                return x >= X && x <= Width && y >= Y && y <= Height;
+                //return x >= X && x <= Width && y >= Y && y <= Height;// Original return statement
+                return (x  <= X || x <= Width) && (y >= Y || y <= Height); //Test statement
             }
 
             public void Draw(CanvasDrawingSession canvas)
