@@ -315,11 +315,17 @@ namespace Combat
                 {
                     X += 1;
                 }
+                
+                // Not done- just brainstorming
+                if (Collides(X,Y,0,0)){
+                    Width = 0;
+                    Height = 0;
+                }
             }
 
             public bool Collides(int x, int y, int height, int width)
             {
-                return x >= X && x <= Width && y >= Y && y <= Height;
+                return x >= X && x <= Width || y >= Y && y <= Height;
             }
 
             public void Draw(CanvasDrawingSession canvas)
