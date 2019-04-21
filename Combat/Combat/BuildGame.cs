@@ -104,6 +104,16 @@ namespace Combat
                 otherTank.Y += (int)(controls.LeftThumbstickY * 5);
             }
 
+            //Testing if bullet collides with wall
+            //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
+            foreach (var wall in exteriorWalls)
+            {
+                if (wall.Collides(playerBullets.X,playerBullets.Y,0,0)){
+                    playerBullets.Width = 0;
+
+                }
+            }
+          
             //bool isButtonPressed;
 
             /*if (isButtonPressed == true)
@@ -197,7 +207,8 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                throw new NotImplementedException();
+                // Want to test if either the X or Y intersect exactly
+                return (x == X && x <= Width) || (y == Y && y <= Height);
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -225,7 +236,8 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                throw new NotImplementedException();
+                // Same idea/concept of exterior wall collision function
+                return (x == X && x <= Width) || (y == Y && y <= Height);
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -278,6 +290,7 @@ namespace Combat
             public void Update()
             {
                 //Determine what position user is going.  Bullets can only go in one direction
+
                 if (TravelingDownward)
                 {
                     if (DiagnolTravelLeft)
@@ -298,7 +311,7 @@ namespace Combat
                     {
                         Y -= 1;
                         X -= 1;
-       
+
                     }
                     else if (DiagnolTravelRight)
                     {
@@ -315,17 +328,12 @@ namespace Combat
                 {
                     X += 1;
                 }
-                
-                // Not done- just brainstorming
-                if (Collides(X,Y,0,0)){
-                    Width = 0;
-                    Height = 0;
-                }
             }
 
             public bool Collides(int x, int y, int height, int width)
             {
-                return x >= X && x <= Width || y >= Y && y <= Height;
+                //return x >= X && x <= Width && y >= Y && y <= Height;// Original return statement
+                return (x  <= X || x <= Width) && (y >= Y || y <= Height); //Test statement
             }
 
             public void Draw(CanvasDrawingSession canvas)
