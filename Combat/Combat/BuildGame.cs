@@ -39,19 +39,23 @@ namespace Combat
             otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
             pointsPlayer = new Points();
             pointsOther = new Points();
+
+            //Looking at the instance of the bullets
             playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
 
             //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
             playerBullets.TravelingUpward = false;
             playerBullets.TravelingDownward = false;
 
-            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
-
             //Automatically placing the bullets to move towards the left on X-Axis
             otherBullets.TravelingLeftWard = false;
             otherBullets.TravelingUpward = false;
             otherBullets.TravelingDownward = false;
+
+            drawables.Add(playerBullets);
+            drawables.Add(otherBullets);
 
             //Boundary of game
             var outsideWall = new ExteriorWalls(10, 10, 1000, 700, Colors.Black);
@@ -72,13 +76,12 @@ namespace Combat
             // interiorWalls.Add(insideWallRightSide);
 
             //Adding bullets
-            drawables.Add(playerBullets);
-            drawables.Add(otherBullets);
 
 
 
             drawables.Add(playerTank);
             drawables.Add(otherTank);
+
 
         }
 
@@ -91,30 +94,23 @@ namespace Combat
                 var controls = controller.GetCurrentReading();
 
                 //Trying to have a variable of game buton and link it to the button A
-                var controlButton = controller.GetButtonLabel(GamepadButtons.A);
-
-                controls.Buttons = (GamepadButtons)controlButton;
 
                 playerTank.X += (int)(controls.LeftThumbstickX * 5);
-                playerTank.Y += (int)(controls.LeftThumbstickY * 5);
+                playerTank.Y += (int)(controls.LeftThumbstickY * -5);
 
-                playerTank.X += (int)(controls.RightThumbstickX * 5);
+                //playerTank.X += (int)(controls.RightThumbstickX * 5);
 
                 otherTank.X += (int)(controls.LeftThumbstickX * 5);
-                otherTank.Y += (int)(controls.LeftThumbstickY * 5);
+                otherTank.Y += (int)(controls.LeftThumbstickY * -5);
+
+                //Debug mode does not like the A button....using B button for bullet firing
+
+                if (controls.Buttons.HasFlag(GamepadButtons.B))
+                {
+                    playerBullets.Update();
+                    otherBullets.Update();
+                }
             }
-
-            //bool isButtonPressed;
-
-            /*if (isButtonPressed == true)
-            {
-                playerBullets.Update();
-            }
-            */
-            //var control = controller.GetButtonLabel(GamepadButtons.A);
-
-            //if (control)
-            otherBullets.Update();
         }
 
         public void DrawGame(CanvasDrawingSession canvas)
