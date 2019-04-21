@@ -109,6 +109,19 @@ namespace Combat
                     drawables.Add(otherBullets);
                 }
 
+                //Testing if bullet collides with wall
+                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
+                foreach (var wall in exteriorWalls)
+                {
+                    if (wall.Collides(playerBullets.X, playerBullets.Y, 0, 0))
+                    {
+                        playerBullets.Width = 0;
+
+                    }
+                }
+
+                //bool isButtonPressed;
+
                 playerBullets.Update();
                 otherBullets.Update();
             }
