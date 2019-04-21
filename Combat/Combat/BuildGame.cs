@@ -25,7 +25,9 @@ namespace Combat
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
 
-        private bool gameOver;
+                
+
+        //private bool gameOver;
 
         private Gamepad controller;
 
@@ -39,14 +41,15 @@ namespace Combat
             otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
             pointsPlayer = new Points();
             pointsOther = new Points();
-            playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+
+            //Looking at the instance of the bullets
+            playerBullets = new Bullets(0,0,0,0, Colors.AliceBlue);
+            otherBullets = new Bullets(0,0,0,0, Colors.Orange);
 
             //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
             playerBullets.TravelingUpward = false;
             playerBullets.TravelingDownward = false;
-
-            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
 
             //Automatically placing the bullets to move towards the left on X-Axis
             otherBullets.TravelingLeftWard = false;
@@ -71,15 +74,8 @@ namespace Combat
             // drawables.Add(insideWallRightSide);
             // interiorWalls.Add(insideWallRightSide);
 
-            //Adding bullets
-            drawables.Add(playerBullets);
-            drawables.Add(otherBullets);
-
-
-
             drawables.Add(playerTank);
             drawables.Add(otherTank);
-
         }
 
         public void Update()
@@ -91,40 +87,46 @@ namespace Combat
                 var controls = controller.GetCurrentReading();
 
                 //Trying to have a variable of game buton and link it to the button A
-                var controlButton = controller.GetButtonLabel(GamepadButtons.A);
-
-                controls.Buttons = (GamepadButtons)controlButton;
 
                 playerTank.X += (int)(controls.LeftThumbstickX * 5);
-                playerTank.Y += (int)(controls.LeftThumbstickY * 5);
+                playerTank.Y += (int)(controls.LeftThumbstickY * -5);
 
-                playerTank.X += (int)(controls.RightThumbstickX * 5);
+                //Want to look into rotational movement.....
+                //playerTank.X += (int)(controls.RightThumbstickX * 5);
 
                 otherTank.X += (int)(controls.LeftThumbstickX * 5);
-                otherTank.Y += (int)(controls.LeftThumbstickY * 5);
-            }
+                otherTank.Y += (int)(controls.LeftThumbstickY * -5);
 
-            //Testing if bullet collides with wall
-            //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-            foreach (var wall in exteriorWalls)
-            {
-                if (wall.Collides(playerBullets.X,playerBullets.Y,0,0)){
-                    playerBullets.Width = 0;
 
+                //Debug mode does not like the A button....using B button for bullet firing
+
+                if (controls.Buttons.HasFlag(GamepadButtons.B))
+                {
+                    //Looking at the instance of the bullets
+                    playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+                    otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
+
+                    drawables.Add(playerBullets);
+                    drawables.Add(otherBullets);
                 }
-            }
-          
-            //bool isButtonPressed;
 
-            /*if (isButtonPressed == true)
-            {
+                //Testing if bullet collides with wall
+                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
+                foreach (var wall in exteriorWalls)
+                {
+                    if (wall.Collides(playerBullets.X, playerBullets.Y, 0, 0))
+                    {
+                        playerBullets.Width = 0;
+
+                    }
+                }
+
+                //bool isButtonPressed;
+
+
                 playerBullets.Update();
+                otherBullets.Update();
             }
-            */
-            //var control = controller.GetButtonLabel(GamepadButtons.A);
-
-            //if (control)
-            otherBullets.Update();
         }
 
         public void DrawGame(CanvasDrawingSession canvas)
@@ -181,12 +183,6 @@ namespace Combat
                 canvas.FillRectangle(X, Y + 20, Height + 50, Width - 40, Colors);
             }
         }
-
-        public class Keyboard
-        {
-            private Keyboard keyboard { get; set; }
-        }
-
 
         public class ExteriorWalls : ICollidable, IDrawable
         {
