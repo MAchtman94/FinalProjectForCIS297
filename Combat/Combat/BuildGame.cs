@@ -18,8 +18,8 @@ namespace Combat
         private Tank otherTank;
         private Points pointsPlayer;
         private Points pointsOther;
-        private Bullets playerBullets;
-        private Bullets otherBullets;
+        private List<Bullets> playerBullets;
+        private List<Bullets> otherBullets;
         private List<ExteriorWalls> exteriorWalls;
         private List<InteriorWalls> interiorWalls;
         private List<IDrawable> drawables;
@@ -37,24 +37,14 @@ namespace Combat
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
-            playerTank = new Tank(30, 30, 60, 60, Colors.Black);
-            otherTank = new Tank(300, 300, 60, 60, Colors.Blue);
+            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Black);
+            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
             pointsPlayer = new Points();
             pointsOther = new Points();
 
             //Looking at the instance of the bullets
-            playerBullets = new Bullets(0,0,0,0, Colors.AliceBlue);
-            otherBullets = new Bullets(0,0,0,0, Colors.Orange);
-
-            //Automatically placing the bullets to move towards the right on X-Axis
-            playerBullets.TravelingLeftWard = false;
-            playerBullets.TravelingUpward = false;
-            playerBullets.TravelingDownward = false;
-
-            //Automatically placing the bullets to move towards the left on X-Axis
-            otherBullets.TravelingLeftWard = false;
-            otherBullets.TravelingUpward = false;
-            otherBullets.TravelingDownward = false;
+            playerBullets = new List<Bullets>();
+            otherBullets = new List<Bullets>();
 
             //Boundary of game
             var outsideWall = new ExteriorWalls(10, 10, 1000, 700, Colors.Black);
@@ -91,8 +81,9 @@ namespace Combat
                 playerTank.X += (int)(controls.LeftThumbstickX * 5);
                 playerTank.Y += (int)(controls.LeftThumbstickY * -5);
 
-                //Want to look into rotational movement.....
-                //playerTank.X += (int)(controls.RightThumbstickX * 5);
+                //Messing with angular movement
+                playerTank.AngleX += (int)(controls.RightThumbstickX + (Math.Cos(30) * 1));
+                playerTank.AngleY -= (int)(controls.RightThumbstickY + (Math.Sin(30) * 1));
 
                 otherTank.X += (int)(controls.LeftThumbstickX * 5);
                 otherTank.Y += (int)(controls.LeftThumbstickY * -5);
@@ -102,28 +93,42 @@ namespace Combat
                 if (controls.Buttons.HasFlag(GamepadButtons.B))
                 {
                     //Looking at the instance of the bullets
-                    playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
-                    otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
+                    var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+                    var otherBullet = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
 
-                    drawables.Add(playerBullets);
-                    drawables.Add(otherBullets);
+                    //Include traveling before adding to list
+
+
+                    playerBullets.Add(playerBullet);
+                    otherBullets.Add(otherBullet);
+
+                    drawables.Add(playerBullet);
+                    drawables.Add(otherBullet);
+                }
+
+                foreach(var player in playerBullets)
+                {
+                    player.Update();
+                }
+
+                foreach(var other in otherBullets)
+                {
+                    other.Update();
                 }
 
                 //Testing if bullet collides with wall
                 //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-                foreach (var wall in exteriorWalls)
+                /*foreach (var wall in exteriorWalls)
                 {
                     if (wall.Collides(playerBullets.X, playerBullets.Y, 0, 0))
                     {
                         playerBullets.Width = 0;
 
                     }
-                }
+                }*/
 
                 //bool isButtonPressed;
 
-                playerBullets.Update();
-                otherBullets.Update();
             }
         }
 
@@ -152,6 +157,8 @@ namespace Combat
             public int Y { get; set; }
             public int Height { get; set; }
             public int Width { get; set; }
+            public int AngleX { get; set; }
+            public int AngleY { get; set; }
             public Color Colors { get; set; }
 
             //Determine front of tank position
@@ -160,12 +167,14 @@ namespace Combat
             bool TankLeftward { get; set; }
             bool TankRightward { get; set; }
 
-            public Tank(int x, int y, int height, int width, Color color)
+            public Tank(int x, int y, int height, int width, int angleX, int angleY, Color color)
             {
                 X = x;
                 Y = y;
                 Height = height;
                 Width = width;
+                AngleX = angleX;
+                AngleY = angleY;
                 Colors = color;
             }
 
@@ -238,10 +247,6 @@ namespace Combat
             }
         }
 
-        /* public class WallsBoundary : ICollidable, IDrawable
-         {
-
-         } */
 
         //This is the score keeper for the character
         public class Points : IDrawable
