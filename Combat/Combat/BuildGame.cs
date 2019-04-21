@@ -25,7 +25,9 @@ namespace Combat
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
 
-        private bool gameOver;
+                
+
+        //private bool gameOver;
 
         private Gamepad controller;
 
@@ -41,8 +43,8 @@ namespace Combat
             pointsOther = new Points();
 
             //Looking at the instance of the bullets
-            playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
-            otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
+            playerBullets = new Bullets(0,0,0,0, Colors.AliceBlue);
+            otherBullets = new Bullets(0,0,0,0, Colors.Orange);
 
             //Automatically placing the bullets to move towards the right on X-Axis
             playerBullets.TravelingLeftWard = false;
@@ -53,9 +55,6 @@ namespace Combat
             otherBullets.TravelingLeftWard = false;
             otherBullets.TravelingUpward = false;
             otherBullets.TravelingDownward = false;
-
-            drawables.Add(playerBullets);
-            drawables.Add(otherBullets);
 
             //Boundary of game
             var outsideWall = new ExteriorWalls(10, 10, 1000, 700, Colors.Black);
@@ -75,14 +74,8 @@ namespace Combat
             // drawables.Add(insideWallRightSide);
             // interiorWalls.Add(insideWallRightSide);
 
-            //Adding bullets
-
-
-
             drawables.Add(playerTank);
             drawables.Add(otherTank);
-
-
         }
 
         public void Update()
@@ -98,6 +91,7 @@ namespace Combat
                 playerTank.X += (int)(controls.LeftThumbstickX * 5);
                 playerTank.Y += (int)(controls.LeftThumbstickY * -5);
 
+                //Want to look into rotational movement.....
                 //playerTank.X += (int)(controls.RightThumbstickX * 5);
 
                 otherTank.X += (int)(controls.LeftThumbstickX * 5);
@@ -107,9 +101,16 @@ namespace Combat
 
                 if (controls.Buttons.HasFlag(GamepadButtons.B))
                 {
-                    playerBullets.Update();
-                    otherBullets.Update();
+                    //Looking at the instance of the bullets
+                    playerBullets = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+                    otherBullets = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
+
+                    drawables.Add(playerBullets);
+                    drawables.Add(otherBullets);
                 }
+
+                playerBullets.Update();
+                otherBullets.Update();
             }
         }
 
@@ -167,12 +168,6 @@ namespace Combat
                 canvas.FillRectangle(X, Y + 20, Height + 50, Width - 40, Colors);
             }
         }
-
-        public class Keyboard
-        {
-            private Keyboard keyboard { get; set; }
-        }
-
 
         public class ExteriorWalls : ICollidable, IDrawable
         {
