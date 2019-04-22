@@ -16,6 +16,6 @@
         <Frame x:Name="CreditsPage"></Frame>
         <Frame x:Name="HowToPlayPage"></Frame>
         <Frame x:Name="NewGamePage"></Frame>
-        <Frame x:Name="StageEditPage"></Frame>
+        <Frame x:Name="StageEditPage" Navigated="StageEditPage_Navigated"></Frame>
     </Grid>
 </Page>

@@ -46,5 +46,10 @@ namespace Combat
         {
             StageEditPage.Content = new StageEditPage();
         }
+
+        private void StageEditPage_Navigated(object sender, NavigationEventArgs e)
+        {
+
+        }
     }
 }

@@ -9,6 +9,7 @@ using Windows.Gaming.Input;
 using Windows.UI;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using TiledSharp;
 
 namespace Combat
 {
@@ -31,6 +32,12 @@ namespace Combat
 
         public BuildGame()
         {
+            var map = new TmxMap("test.tmx");
+
+            var version = map.Version;
+            var myTileset = map.Tilesets["tankImage"];
+            var myLayer = map.Layers[1];
+            var hiddenChest = map.ObjectGroups["Chests"].Objects["hiddenChest"];
             drawables = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
