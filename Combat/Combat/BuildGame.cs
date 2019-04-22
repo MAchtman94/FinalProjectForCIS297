@@ -93,13 +93,14 @@ namespace Combat
 
                 if (controls.Buttons.HasFlag(GamepadButtons.B))
                 {
+                    playerTank.X += (int)(controls.LeftThumbstickX * 0);
+                    playerTank.Y += (int)(controls.LeftThumbstickY * 0);
+
                     //Looking at the instance of the bullets
-                    var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
-                    var otherBullet = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
+                    var playerBullet = new Bullets(this.playerTank.X + 65, this.playerTank.Y + 25, 10, 10, Colors.Blue);
+                    var otherBullet = new Bullets(this.otherTank.X + 65, this.otherTank.Y + 25, 10, 10, Colors.Orange);
 
                     //Include traveling before adding to list
-
-
                     playerBullets.Add(playerBullet);
                     otherBullets.Add(otherBullet);
 
@@ -107,6 +108,7 @@ namespace Combat
                     drawables.Add(otherBullet);
                 }
 
+                //Movement update for bullets
                 foreach(var player in playerBullets)
                 {
                     player.Update();
@@ -129,9 +131,6 @@ namespace Combat
                 }*/
 
                 //bool isButtonPressed;
-
-                playerBullets.Update();
-                otherBullets.Update();
             }
         }
 
