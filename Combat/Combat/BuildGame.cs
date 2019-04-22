@@ -16,14 +16,15 @@ namespace Combat
     {
         private Tank playerTank;
         private Tank otherTank;
-        private Points pointsPlayer;
-        private Points pointsOther;
+        private List<Bar> barPlayer;
+        private List<Bar> barOther;
         private List<Bullets> playerBullets;
         private List<Bullets> otherBullets;
         private List<ExteriorWalls> exteriorWalls;
         private List<InteriorWalls> interiorWalls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
+        private bool isShooting;
 
                 
 
@@ -39,20 +40,21 @@ namespace Combat
             collidables = new List<ICollidable>();
             playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Black);
             otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
-            pointsPlayer = new Points();
-            pointsOther = new Points();
 
             //Looking at the instance of the bullets
             playerBullets = new List<Bullets>();
             otherBullets = new List<Bullets>();
 
+            barPlayer = new List<Bar>();
+            barOther = new List<Bar>();
+
+            //var barPlayerPieceOne = new Bar(5, 5, 10, 10, Colors.Black);
+
             //Boundary of game
-            var outsideWall = new ExteriorWalls(10, 10, 1000, 700, Colors.Black);
+            var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
             var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow);
             var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
             // var insideWallRightSide = new InteriorWalls(100, 50, 50, 100, Colors.Black);
-
-            //Bullets, need to be animated to move along X-Axis
 
             //Adding outside wall
             drawables.Add(outsideWall);
@@ -64,8 +66,33 @@ namespace Combat
             // drawables.Add(insideWallRightSide);
             // interiorWalls.Add(insideWallRightSide);
 
-            drawables.Add(playerTank);
-            drawables.Add(otherTank);
+           drawables.Add(playerTank);
+           drawables.Add(otherTank);
+
+            CreateHealth();
+        }
+
+
+        //Messing with Health bars
+        public void CreateHealth()
+        {
+            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, Colors.Black);
+            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, Colors.Black);
+            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, Colors.Black);
+            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, Colors.Black);
+            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, Colors.Black);
+
+            drawables.Add(barValuePlayerOnePartFive);
+            drawables.Add(barValuePlayerOnePartFour);
+            drawables.Add(barValuePlayerOnePartThree);
+            drawables.Add(barValuePlayerOnePartTwo);
+            drawables.Add(barValuePlayerOnePartOne);
+
+            barPlayer.Add(barValuePlayerOnePartFive);
+            barPlayer.Add(barValuePlayerOnePartFour);
+            barPlayer.Add(barValuePlayerOnePartThree);
+            barPlayer.Add(barValuePlayerOnePartTwo);
+            barPlayer.Add(barValuePlayerOnePartOne);
         }
 
         public void Update()
@@ -76,29 +103,36 @@ namespace Combat
 
                 var controls = controller.GetCurrentReading();
 
-                //Trying to have a variable of game buton and link it to the button A
+                if (!isShooting)
+                {
+                    //Trying to have a variable of game buton and link it to the button A
 
-                playerTank.X += (int)(controls.LeftThumbstickX * 5);
-                playerTank.Y += (int)(controls.LeftThumbstickY * -5);
+                    playerTank.X += (int)(controls.LeftThumbstickX * 5);
+                    playerTank.Y += (int)(controls.LeftThumbstickY * -5);
 
-                //Messing with angular movement
-                playerTank.AngleX += (int)(controls.RightThumbstickX + (Math.Cos(30) * 1));
-                playerTank.AngleY -= (int)(controls.RightThumbstickY + (Math.Sin(30) * 1));
+                    //Messing with angular movement
+                    playerTank.AngleX += (int)(controls.RightThumbstickX + (Math.Cos(30) * 1));
+                    playerTank.AngleY -= (int)(controls.RightThumbstickY + (Math.Sin(30) * 1));
 
-                otherTank.X += (int)(controls.LeftThumbstickX * 5);
-                otherTank.Y += (int)(controls.LeftThumbstickY * -5);
+                    otherTank.X += (int)(controls.LeftThumbstickX * 5);
+                    otherTank.Y += (int)(controls.LeftThumbstickY * -5);
+                }
 
+                //Removing the entire health bar not each square
+                if (controls.Buttons.HasFlag(GamepadButtons.Y))
+                {
+                    foreach(var health in barPlayer)
+                    {
+                        drawables.Remove(health);
+                    }
+                }
 
                 //Debug mode does not like the A button....using B button for bullet firing
-
                 if (controls.Buttons.HasFlag(GamepadButtons.B))
                 {
-                    playerTank.X += (int)(controls.LeftThumbstickX * 0);
-                    playerTank.Y += (int)(controls.LeftThumbstickY * 0);
-
                     //Looking at the instance of the bullets
-                    var playerBullet = new Bullets(this.playerTank.X + 65, this.playerTank.Y + 25, 10, 10, Colors.Blue);
-                    var otherBullet = new Bullets(this.otherTank.X + 65, this.otherTank.Y + 25, 10, 10, Colors.Orange);
+                    var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+                    var otherBullet = new Bullets(otherTank.X + 65, otherTank.Y + 25, 10, 10, Colors.Orange);
 
                     //Include traveling before adding to list
                     playerBullets.Add(playerBullet);
@@ -106,6 +140,12 @@ namespace Combat
 
                     drawables.Add(playerBullet);
                     drawables.Add(otherBullet);
+
+                    isShooting = true;
+                }
+                else
+                {
+                    isShooting = false;
                 }
 
                 //Movement update for bullets
@@ -190,6 +230,10 @@ namespace Combat
                 canvas.FillRectangle(X, Y, Height, Width, Colors);
 
                 canvas.FillRectangle(X, Y + 20, Height + 50, Width - 40, Colors);
+
+               // canvas.FillCircle(X + 20, Y + 30, Height - 10, Colors);
+
+               // canvas.FillRectangle(X, Y - 20, Height, Width, Colors);
             }
         }
 
@@ -253,11 +297,26 @@ namespace Combat
 
 
         //This is the score keeper for the character
-        public class Points : IDrawable
+        public class Bar : IDrawable
         {
+            public int X { get; set; }
+            public int Y { get; set; }
+            public int Height { get; set; }
+            public int Width { get; set; }
+            public Color Color { get; set; }
+
+            public Bar(int x, int y, int height, int width, Color color)
+            {
+                X = x;
+                Y = y;
+                Height = height;
+                Width = width;
+                Color = color;
+            }
+
             public void Draw(CanvasDrawingSession canvas)
             {
-                throw new NotImplementedException();
+                canvas.FillRectangle(X, Y, Height, Width, Color);
             }
         }
 
