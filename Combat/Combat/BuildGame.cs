@@ -32,12 +32,11 @@ namespace Combat
 
         public BuildGame()
         {
-            var map = new TmxMap("test.tmx");
-
-            var version = map.Version;
-            var myTileset = map.Tilesets["tankImage"];
-            var myLayer = map.Layers[1];
-            var hiddenChest = map.ObjectGroups["Chests"].Objects["hiddenChest"];
+            //var map = new TmxMap("test.tmx");
+            //var version = map.Version;
+            //var myTileset = map.Tilesets["tankImage"];
+            //var myLayer = map.Layers[1];
+            //var hiddenChest = map.ObjectGroups["Chests"].Objects["hiddenChest"];
             drawables = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
@@ -237,7 +236,10 @@ namespace Combat
 
             public void Draw(CanvasDrawingSession canvas)
             {
+                //builds the map
                 canvas.FillRectangle(X, Y, Height, Width, Color);
+                //starts at x = 10, y = 10, height(x) = 1000, width(y) = 700, use Colors.???
+                canvas.FillRectangle(
             }
         }
 
