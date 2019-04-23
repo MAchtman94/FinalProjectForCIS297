@@ -29,22 +29,22 @@ namespace Combat
 
         private void Credits(object sender, RoutedEventArgs e)
         {
-            CreditsPage.Content = new CreditsPage();
+            this.Frame.Navigate(typeof(CreditsPage));
         }
 
         private void HowToPlay(object sender, RoutedEventArgs e)
         {
-            HowToPlayPage.Content = new HowToPlayPage();
+            this.Frame.Navigate(typeof(HowToPlayPage));
         }
 
         private void NewGame(object sender, RoutedEventArgs e)
         {
-            NewGamePage.Content = new NewGamePage();
+            this.Frame.Navigate(typeof(NewGamePage));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            StageEditPage.Content = new StageEditPage();
+            this.Frame.Navigate(typeof(StageEditPage));
         }
 
         private void StageEditPage_Navigated(object sender, NavigationEventArgs e)

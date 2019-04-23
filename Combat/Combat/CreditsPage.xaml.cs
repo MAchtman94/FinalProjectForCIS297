@@ -29,9 +29,7 @@ namespace Combat
 
         private void BackButton(object sender, RoutedEventArgs e)
         {
-            MainPage.Content = new MainPage();
-
-            //MainPage.Content = new MainPage();
+            this.Frame.Navigate(typeof(MainPage));
         }
     }
 }
