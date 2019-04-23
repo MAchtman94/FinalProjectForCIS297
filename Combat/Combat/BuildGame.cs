@@ -62,7 +62,7 @@ namespace Combat
             drawables.Add(outsideWall);
             exteriorWalls.Add(outsideWall);
             drawables.Add(fillInWall);
-            interiorWalls.Add(fillInWall);
+            //interiorWalls.Add(fillInWall);
             drawables.Add(insideWallLeftSide);
             interiorWalls.Add(insideWallLeftSide);
             // drawables.Add(insideWallRightSide);
@@ -75,10 +75,11 @@ namespace Combat
             drawables.Add(otherTankPartTwo);
 
             CreateHealth();
+            CreateHealthForOther();
         }
 
 
-        //Messing with Health bars
+        //Creating player one health bar
         public void CreateHealth()
         {
             var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, Colors.Black);
@@ -98,6 +99,28 @@ namespace Combat
             drawables.Add(barValuePlayerOnePartThree);
             drawables.Add(barValuePlayerOnePartTwo);
             drawables.Add(barValuePlayerOnePartOne);
+        }
+
+        //Creating player two health bar
+        public void CreateHealthForOther()
+        {
+            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, Colors.Blue);
+            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, Colors.Blue);
+            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, Colors.Blue);
+            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, Colors.Blue);
+            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, Colors.Blue);
+
+            barOther.Add(barValueOtherOnePartOne);
+            barOther.Add(barValueOtherOnePartTwo);
+            barOther.Add(barValueOtherOnePartThree);
+            barOther.Add(barValueOtherOnePartFour);
+            barOther.Add(barValueOtherOnePartFive);
+
+            drawables.Add(barValueOtherOnePartOne);
+            drawables.Add(barValueOtherOnePartTwo);
+            drawables.Add(barValueOtherOnePartThree);
+            drawables.Add(barValueOtherOnePartFour);
+            drawables.Add(barValueOtherOnePartFive);
         }
 
         public void Update()
@@ -133,16 +156,33 @@ namespace Combat
                         otherTankPartTwo.Y += (int)(controls.LeftThumbstickY * -5);
                     }
 
-                    //Removing the entire health bar not each square
+                    //Removing health bar behavior
                     if (controls.Buttons.HasFlag(GamepadButtons.Y))
                     { 
                         bool hit = true;
 
                         foreach (var health in barPlayer.ToList())
                         {     
+                            //Only the first instance in the list will be removed
                             if (hit == true)
                             {
                                 barPlayer.Remove(health);
+                                drawables.Remove(health);
+                                hit = false;
+                            }
+                        }
+                    }
+
+                    //Removing health bar for other player
+                    if (controls.Buttons.HasFlag(GamepadButtons.X))
+                    {
+                        bool hit = true;
+
+                        foreach (var health in barOther.ToList())
+                        {
+                            if (hit == true)
+                            {
+                                barOther.Remove(health);
                                 drawables.Remove(health);
                                 hit = false;
                             }
@@ -183,7 +223,7 @@ namespace Combat
                         other.Update();
                     }
 
-                    if (barPlayer.Count == 0)
+                    if (barPlayer.Count == 0 || barOther.Count == 0)
                     {
                         gameOver = true;
                     }
@@ -195,11 +235,15 @@ namespace Combat
 
                 //Testing if bullet collides with walls, internal and external
                 //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
+
+                // if (itCollides)
+                // {
+
                 foreach (var bullet in playerBullets)
                 {
-                    foreach(var inWall in interiorWalls)
+                    foreach (var inWall in interiorWalls)
                     {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height,inWall.Width))
+                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
                         {
                             bullet.removeBullet(bullet);
                         }
@@ -211,11 +255,14 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
-                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height,bullet.Width))
+                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
                     {
                         bullet.removeBullet(bullet);
+
+
                     }
                 }
+
                 foreach (var bullet in otherBullets)
                 {
                     foreach (var inWall in interiorWalls)
@@ -301,17 +348,13 @@ namespace Combat
             public bool Collides(int x, int y, int height, int width)
             {
                 return x >= X && x <= Width && y >= Y && y <= Height;
+
+                //return x == X && x == Width && y == Y && y == Height; //Test statement MAXX
             }
 
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.FillRectangle(X, Y, Height, Width, Colors);
-
-               // canvas.FillRectangle(X, Y + 20, Height + 50, Width - 40, Colors);
-
-               // canvas.FillCircle(X + 20, Y + 30, Height - 10, Colors);
-
-               // canvas.FillRectangle(X, Y - 20, Height, Width, Colors);
             }
         }
 
@@ -335,7 +378,9 @@ namespace Combat
             public bool Collides(int x, int y, int height, int width)
             {
                 return (x <= X || x <= Width) && (y >= Y || y >= Height);
-               
+
+                //return x == X && height == Height; //|| y == Height; //Test statement MAXX
+
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -366,6 +411,8 @@ namespace Combat
                 // Same idea/concept of exterior wall collision function
 
                 return x >= X && x <= Width && y >= Y && y <= Height;
+
+                //return x == X || x == height; //|| y == Height; //Test statement MAXX
 
             }
 
@@ -482,8 +529,10 @@ namespace Combat
             public bool Collides(int x, int y, int height, int width)
             {
                 //return (x >= X && x <= Width) && (y >= Y && y <= Height);// Original return statement
-              
-                return (x  <= X || x <= Width) && (y >= Y || y <= Height); //Test statement
+
+                return (x <= X || x <= Width) && (y >= Y || y <= Height); //Test statement
+
+                //return (x  <= X || x <= Width) && (y >= Y || y <= Height); //Test statement MAXX
             }
 
             public void Draw(CanvasDrawingSession canvas)
