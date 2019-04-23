@@ -193,19 +193,63 @@ namespace Combat
                     
                 }
 
-                //Testing if bullet collides with wall
+                //Testing if bullet collides with walls, internal and external
                 //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-                /*foreach (var wall in exteriorWalls)
+                foreach (var bullet in playerBullets)
                 {
-                    if (wall.Collides(playerBullets.X, playerBullets.Y, 0, 0))
+                    foreach(var inWall in interiorWalls)
                     {
-                        playerBullets.Width = 0;
-
+                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height,inWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
                     }
-                }*/
+                    foreach (var exWall in exteriorWalls)
+                    {
+                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height,bullet.Width))
+                    {
+                        bullet.removeBullet(bullet);
+                    }
+                }
+                foreach (var bullet in otherBullets)
+                {
+                    foreach (var inWall in interiorWalls)
+                    {
+                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    foreach (var exWall in exteriorWalls)
+                    {
+                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                    {
+                        bullet.removeBullet(bullet);
+                    }
+                }
+                // ----> Work in progress: Crude statement to try and lock the players so long as they hit each other; they can't pass through one another. Mainly a placeholder until testing.
+                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+                {
+                    playerTank.X = playerTank.X;
+                    playerTank.Y = playerTank.Y;
 
+                    otherTank.X = otherTank.X;
+                    otherTank.Y = otherTank.Y;
+                }
+                
                 //bool isButtonPressed;
             }
+          
         }
 
         public void DrawGame(CanvasDrawingSession canvas)
@@ -256,7 +300,7 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                throw new NotImplementedException();
+                return x >= X && x <= Width && y >= Y && y <= Height;
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -290,8 +334,8 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                // Want to test if either the X or Y intersect exactly
-                return (x == X && x <= Width) || (y == Y && y <= Height);
+                return (x <= X || x <= Width) && (y >= Y || y >= Height);
+               
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -320,7 +364,9 @@ namespace Combat
             public bool Collides(int x, int y, int height, int width)
             {
                 // Same idea/concept of exterior wall collision function
-                return (x == X && x <= Width) || (y == Y && y <= Height);
+
+                return x >= X && x <= Width && y >= Y && y <= Height;
+
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -424,9 +470,19 @@ namespace Combat
                 }
             }
 
+            public void removeBullet(Bullets bullet)
+            {
+                bullet.Width = 0;
+                bullet.Height = 0;
+                bullet.X = -10;
+                bullet.Y = -10;
+             
+                
+            }
             public bool Collides(int x, int y, int height, int width)
             {
-                //return x >= X && x <= Width && y >= Y && y <= Height;// Original return statement
+                //return (x >= X && x <= Width) && (y >= Y && y <= Height);// Original return statement
+              
                 return (x  <= X || x <= Width) && (y >= Y || y <= Height); //Test statement
             }
 
