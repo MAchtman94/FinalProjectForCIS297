@@ -249,6 +249,7 @@ namespace Combat
 
                 foreach (var bullet in playerBullets)
                 {
+                    /*
                     foreach (var inWall in interiorWalls)
                     {
                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
@@ -256,6 +257,7 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+                    */
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -263,16 +265,19 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+                    /*
                     if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
                     {
                         bullet.removeBullet(bullet);
 
 
                     }
+                    */
                 }
 
                 foreach (var bullet in otherBullets)
                 {
+                    /*
                     foreach (var inWall in interiorWalls)
                     {
                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
@@ -280,6 +285,7 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+                    */
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -287,12 +293,38 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+                    /*
                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
                     {
                         bullet.removeBullet(bullet);
                     }
+                    */
                 }
-                // ----> Work in progress: Crude statement to try and lock the players so long as they hit each other; they can't pass through one another. Mainly a placeholder until testing.
+                foreach (var wall in exteriorWalls)
+                {
+                    if (playerTank.CollidesTop() || playerTankPartTwo.CollidesTop())
+                    {
+                        playerTank.Y = playerTank.Y + 15;
+                        playerTankPartTwo.Y = playerTankPartTwo.Y + 15;
+                    }
+                    if (playerTank.CollidesBottom() || playerTankPartTwo.CollidesBottom())
+                    {
+                        playerTank.Y = playerTank.Y - 15;
+                        playerTankPartTwo.Y = playerTankPartTwo.Y - 15;
+                    }
+                    if (playerTank.CollidesLeft() || playerTankPartTwo.CollidesLeft())
+                    {
+                        playerTank.X = playerTank.X + 15;
+                        playerTankPartTwo.X = playerTankPartTwo.X + 15;
+                    }
+                    if (playerTank.CollidesRight() || playerTankPartTwo.CollidesRight())
+                    {
+                        playerTank.X = playerTank.X - 15;
+                        playerTankPartTwo.X = playerTankPartTwo.X - 15;
+                    }
+                }
+
+               /*
                 if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
                 {
                     playerTank.X = playerTank.X;
@@ -301,6 +333,7 @@ namespace Combat
                     otherTank.X = otherTank.X;
                     otherTank.Y = otherTank.Y;
                 }
+                */
                 
                 //bool isButtonPressed;
             }
@@ -340,7 +373,7 @@ namespace Combat
         }
 
         //Character player
-        public class Tank : ICollidable, IDrawable
+        public class Tank :  IDrawable
         {
             public int X { get; set; }
             public int Y { get; set; }
@@ -366,14 +399,32 @@ namespace Combat
                 AngleY = angleY;
                 Colors = color;
             }
-
-            public bool Collides(int x, int y, int height, int width)
+            public bool Collides()
             {
-                return x >= X && x <= Width && y >= Y && y <= Height;
+                return true;
+            }
+            public bool CollidesTop()
+            {
+                //(X == x || X == 22) || (
+                return ( Y == 20);
 
                 //return x == X && x == Width && y == Y && y == Height; //Test statement MAXX
             }
-
+            public bool CollidesBottom()
+            {
+                //(X == x || X == 22) || (
+                return (Y == 720);
+            }
+            public bool CollidesLeft()
+            {
+                //(X == x || X == 22) || (
+                return (X == 22);
+            }
+            public bool CollidesRight()
+            {
+                //(X == x || X == 22) || (
+                return (X == 1018);
+            }
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.FillRectangle(X, Y, Height, Width, Colors);
@@ -399,7 +450,7 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                return (x <= X || x <= Width) && (y >= Y || y >= Height);
+                return ((x == 1018 || x == 22) || (y == 720 || y == 20));
 
                 //return x == X && height == Height; //|| y == Height; //Test statement MAXX
 
