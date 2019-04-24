@@ -22,16 +22,14 @@ namespace Combat
     /// </summary>
     public sealed partial class GameTypeTwo : Page
     {
-        BuildGame buildGame;
+        BuildGame buildGameTwo;
         MediaElement mySong;
 
         public GameTypeTwo()
         {
             this.InitializeComponent();
 
-            buildGame = new BuildGame();
-
-            buildGame.gameTypeToBuild = 2;
+            buildGameTwo.gameTypeToBuild = 2;
 
             mySong = new MediaElement();
             playBackground();
@@ -39,12 +37,12 @@ namespace Combat
 
         private void Canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
         {
-            buildGame.DrawGame(args.DrawingSession);
+            buildGameTwo.DrawGame(args.DrawingSession);
         }
 
         private void Canvas_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
         {
-            buildGame.Update();
+            buildGameTwo.Update();
         }
 
         private void KeyDown_UIThread(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
@@ -58,7 +56,7 @@ namespace Combat
 
             args.Handled = true;
 
-            var action = canvas.RunOnGameLoopThreadAsync(() => buildGame.KeyDown(pressedLetter));
+            var action = canvas.RunOnGameLoopThreadAsync(() => buildGameTwo.KeyDown(pressedLetter));
         }
 
         private void control_Loaded(object sender, RoutedEventArgs e)
@@ -89,7 +87,7 @@ namespace Combat
 
             args.Handled = true;
 
-            var action = canvas.RunOnGameLoopThreadAsync(() => buildGame.KeyUp(releasedLetter));
+            var action = canvas.RunOnGameLoopThreadAsync(() => buildGameTwo.KeyUp(releasedLetter));
         }
 
         public async void playBackground()

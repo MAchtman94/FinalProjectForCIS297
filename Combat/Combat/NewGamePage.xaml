@@ -10,11 +10,11 @@
     >
 
     <Grid>
-        <Button Content="Game One" HorizontalAlignment="Left" Margin="66,619,0,0" VerticalAlignment="Top" Width="164" Click="Button_Click"/>
-        <Button Content="Game Two" HorizontalAlignment="Left" Margin="342,619,0,0" VerticalAlignment="Top" Width="178" Click="Button_Click_1"/>
-        <Button Content="Game Three" HorizontalAlignment="Left" Margin="634,619,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.492,-0.576" Width="172" Click="Button_Click_2"/>
-        <Button Content="Return to Player Two Color Option" HorizontalAlignment="Left" Margin="297,99,0,0" VerticalAlignment="Top" Height="35" Width="246" Click="Button_Click_3"/>
-        <Image HorizontalAlignment="Left" Height="106" Margin="355,478,0,0" VerticalAlignment="Top" Width="156" Source="Assets/GameMapTwo.png"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="78,487,0,0" VerticalAlignment="Top" Width="140" Source="Assets/GameMapOne.png"/>
+        <Button Content="Game One" HorizontalAlignment="Left" Margin="66,667,0,0" VerticalAlignment="Top" Width="164" Click="Button_Click"/>
+        <Button Content="Game Two" HorizontalAlignment="Left" Margin="343,662,0,0" VerticalAlignment="Top" Width="178" Click="Button_Click_1"/>
+        <Button Content="Game Three" HorizontalAlignment="Left" Margin="634,657,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.492,-0.576" Width="172" Click="Button_Click_2"/>
+        <Button Content="Return to Player Two Color Option" HorizontalAlignment="Left" Margin="275,55,0,0" VerticalAlignment="Top" Height="35" Width="246" Click="Button_Click_3"/>
+        <Image HorizontalAlignment="Left" Height="106" Margin="356,536,0,0" VerticalAlignment="Top" Width="156" Source="Assets/GameMapTwo.png"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="78,544,0,0" VerticalAlignment="Top" Width="140" Source="Assets/GameMapOne.png"/>
     </Grid>
 </Page>
