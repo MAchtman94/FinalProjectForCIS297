@@ -25,6 +25,8 @@ namespace Combat
         public HowToPlayPage()
         {
             this.InitializeComponent();
+
+            howToPlayText();
         }
 
         private void BackButton(object sender, RoutedEventArgs e)
@@ -33,6 +35,12 @@ namespace Combat
             
         }
 
-
+        public void howToPlayText()
+        {
+            TextHowTo.Text = "Welcome to the game of Combat! Where you and one other person will go one on one in combat!" + System.Environment.NewLine +
+                "Use the left analog stick to move your tank around the board" + System.Environment.NewLine + "Use the B Button to fire your bullets" + System.Environment.NewLine +
+                "First person to get hit 5 times loses!" + System.Environment.NewLine + "Player one's health bar is on the left and player two will be on the right" + System.Environment.NewLine +
+                "Good luck!";
+        }
     }
 }
