@@ -1,12 +1,10 @@
-﻿using Microsoft.Graphics.Canvas.UI.Xaml;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,31 +20,27 @@ namespace Combat
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NewGamePage : Page
+    public sealed partial class GameTypeTwo : Page
     {
-        public NewGamePage()
+        BuildGame buildGame;
+
+        public GameTypeTwo()
         {
             this.InitializeComponent();
+
+            buildGame = new BuildGame();
+
+            buildGame.gameTypeToBuild = 2;
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
         {
-            this.Frame.Navigate(typeof(GameTypeOne));
+            buildGame.DrawGame(args.DrawingSession);
         }
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        private void Canvas_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
         {
-            this.Frame.Navigate(typeof(GameTypeTwo));
-        }
-
-        private void Button_Click_2(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(GameTypeThree));
-        }
-
-        private void Button_Click_3(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(MainPage));
+            buildGame.Update();
         }
     }
 }

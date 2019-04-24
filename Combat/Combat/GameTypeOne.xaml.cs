@@ -20,11 +20,27 @@ namespace Combat
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class NumberPad : Page
+    public sealed partial class GameTypeOne : Page
     {
-        public NumberPad()
+        BuildGame buildGame;
+
+        public GameTypeOne()
         {
             this.InitializeComponent();
+
+            buildGame = new BuildGame();
+
+            buildGame.gameTypeToBuild = 1;
+        }
+
+        private void Canvas_Draw(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedDrawEventArgs args)
+        {
+            buildGame.DrawGame(args.DrawingSession);
+        }
+
+        private void Canvas_Update(Microsoft.Graphics.Canvas.UI.Xaml.ICanvasAnimatedControl sender, Microsoft.Graphics.Canvas.UI.Xaml.CanvasAnimatedUpdateEventArgs args)
+        {
+            buildGame.Update();
         }
     }
 }

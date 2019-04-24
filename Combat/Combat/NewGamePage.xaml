@@ -10,6 +10,11 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <canvas:CanvasAnimatedControl x:Name="canvas" Draw="Canvas_Draw" Update="Canvas_Update"/>
+        <Button Content="Game One" HorizontalAlignment="Left" Margin="66,619,0,0" VerticalAlignment="Top" Width="164" Click="Button_Click"/>
+        <Button Content="Game Two" HorizontalAlignment="Left" Margin="342,619,0,0" VerticalAlignment="Top" Width="178" Click="Button_Click_1"/>
+        <Button Content="Game Three" HorizontalAlignment="Left" Margin="634,619,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.492,-0.576" Width="172" Click="Button_Click_2"/>
+        <Image Margin="67,450,1270,394" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Source="Assets/GameMapOne.png"/>
+        <Button Content="Return to Main Page" HorizontalAlignment="Left" Margin="297,99,0,0" VerticalAlignment="Top" Height="35" Width="246" Click="Button_Click_3"/>
+        <Image HorizontalAlignment="Left" Height="106" Margin="355,478,0,0" VerticalAlignment="Top" Width="156" Source="Assets/GameMapTwo.png"/>
     </Grid>
 </Page>
