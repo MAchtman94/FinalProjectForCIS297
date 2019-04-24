@@ -121,12 +121,6 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="BuildGame.cs" />
-    <Compile Include="ColorPlayerOne.xaml.cs">
-      <DependentUpon>ColorPlayerOne.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ColorPlayerTwo.xaml.cs">
-      <DependentUpon>ColorPlayerTwo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
@@ -176,14 +170,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="ColorPlayerOne.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="ColorPlayerTwo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="CreditsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

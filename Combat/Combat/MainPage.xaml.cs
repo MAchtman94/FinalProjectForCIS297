@@ -39,7 +39,7 @@ namespace Combat
 
         private void NewGame(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ColorPlayerOne));
+            this.Frame.Navigate(typeof(NewGamePage));
         }
     }
 }

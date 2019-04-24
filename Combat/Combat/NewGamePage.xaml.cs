@@ -46,7 +46,7 @@ namespace Combat
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(ColorPlayerTwo));
+            this.Frame.Navigate(typeof(MainPage));
         }
     }
 }

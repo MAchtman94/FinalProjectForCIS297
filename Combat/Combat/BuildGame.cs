@@ -17,10 +17,6 @@ namespace Combat
     public class BuildGame
     {
         public int gameTypeToBuild { get; set; }
-        public int getColorTypePlayerOne { get; set; }
-        public int getColorTypePlayerTwo { get; set; }
-        public Color colorTypePlayerOne { get; set; }
-        public Color colorTypePlayerTwo { get; set; }
         
 
         private Tank playerTank;
@@ -45,20 +41,17 @@ namespace Combat
 
         public BuildGame()
         {
-            ColorTypePlayerOne();
-            ColorTypePlayerTwo();
-
             drawables = new List<IDrawable>();
             drawablesTwo = new List<IDrawable>();
             drawablesThree = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, colorTypePlayerOne);
 
+            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Black);
             playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
-            otherTank = new Tank(300, 300, 60, 60, 90, 90, colorTypePlayerTwo);
 
+            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
             otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
 
             //Looking at the instance of the bullets
@@ -67,8 +60,6 @@ namespace Combat
 
             barPlayer = new List<Bar>();
             barOther = new List<Bar>();
-
-            //var barPlayerPieceOne = new Bar(5, 5, 10, 10, Colors.Black);
 
             //Boundary of game
             var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
@@ -102,58 +93,15 @@ namespace Combat
             CreateHealth();
             CreateHealthForOther();
         }
-        
-        public void ColorTypePlayerOne()
-        {
-            if (getColorTypePlayerOne == 1)
-            {
-                colorTypePlayerOne = Colors.Orange;
-            }
-            else if (getColorTypePlayerOne == 2)
-            {
-                colorTypePlayerOne = Colors.Black;
-            }
-            else if (getColorTypePlayerOne == 3)
-            {
-                colorTypePlayerOne = Colors.Purple;
-            }
-            else
-            {
-                colorTypePlayerOne = Colors.Pink;
-            }
-
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, colorTypePlayerOne);
-            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
-        }
-
-        public void ColorTypePlayerTwo()
-        {
-            if (getColorTypePlayerTwo == 1)
-            {
-                colorTypePlayerTwo = Colors.Orange;
-            }
-            else if (getColorTypePlayerTwo == 2)
-            {
-                colorTypePlayerTwo = Colors.Black;
-            }
-            else if (getColorTypePlayerTwo == 3)
-            {
-                colorTypePlayerTwo = Colors.Purple;
-            }
-            else
-            {
-                colorTypePlayerTwo = Colors.Pink;
-            }
-        }
 
         //Creating player one health bar
         public void CreateHealth()
         {
-            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, colorTypePlayerOne);
+            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, playerTank.Colors);
 
             barPlayer.Add(barValuePlayerOnePartFive);
             barPlayer.Add(barValuePlayerOnePartFour);
@@ -183,11 +131,11 @@ namespace Combat
 		//Creating player two health bar
         public void CreateHealthForOther()
         {
-            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, colorTypePlayerTwo);
+            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, otherTank.Colors);
 
             barOther.Add(barValueOtherOnePartOne);
             barOther.Add(barValueOtherOnePartTwo);
@@ -335,6 +283,8 @@ namespace Combat
                         foreach (var health in barPlayer.ToList())
                         {
                             //Only the first instance in the list will be removed
+                            //Game one is selected
+
                             if (gameTypeToBuild == 1)
                             {
                                 if (hit == true)
@@ -344,6 +294,7 @@ namespace Combat
                                     hit = false;
                                 }
                             }
+                            //Game 2 is selected
                             else if (gameTypeToBuild == 2)
                             {
                                 if (hit == true)
@@ -353,6 +304,7 @@ namespace Combat
                                     hit = false;
                                 }
                             }
+                            //Game 3 is selected
                             else
                             {
                                 if (hit == true)
@@ -382,7 +334,7 @@ namespace Combat
                                 }
                             }
                         }
-
+                        //Game two is selected
                         else if (gameTypeToBuild == 2)
                         {
                             foreach (var health in barOther.ToList())
@@ -395,6 +347,7 @@ namespace Combat
                                 }
                             }
                         }
+                        //Game 3 is selected
                         else
                         {
                             foreach (var health in barOther.ToList())
@@ -413,8 +366,8 @@ namespace Combat
                     if (controls.Buttons.HasFlag(GamepadButtons.B))
                     {
                         //Looking at the instance of the bullets
-                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, colorTypePlayerOne);
-                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, colorTypePlayerTwo);
+                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, playerTank.Colors);
+                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, otherTank.Colors);
 
                         otherBullet.TravelingLeftWard = true;
 
@@ -636,7 +589,7 @@ namespace Combat
                     if (playerTank.TankIsShooting == true)
                     {
                         //Looking at the instance of the bullets
-                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, colorTypePlayerOne);
+                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, playerTank.Colors);
 
                         if (playerTank.IsUp)
                         {
@@ -664,7 +617,7 @@ namespace Combat
                     if (otherTank.TankIsShooting == true)
                     {
                         //Looking at the instance of the bullets
-                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, colorTypePlayerTwo);
+                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, otherTank.Colors);
 
                         if (otherTank.IsUp)
                         {
