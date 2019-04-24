@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -12,6 +13,9 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Microsoft.Win32;
+using Windows.System.Display;
+using Windows.Media;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -22,6 +26,7 @@ namespace Combat
     /// </summary>
     public sealed partial class HowToPlayPage : Page
     {
+        
         public HowToPlayPage()
         {
             this.InitializeComponent();
@@ -32,7 +37,6 @@ namespace Combat
         private void BackButton(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage));
-            
         }
 
         public void howToPlayText()

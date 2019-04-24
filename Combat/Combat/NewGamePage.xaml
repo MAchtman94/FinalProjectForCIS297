@@ -7,7 +7,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    Loaded="control_Loaded"
+    Unloaded="control_Unloaded">
 
     <Grid>
         <Button Content="Game One" HorizontalAlignment="Left" Margin="66,619,0,0" VerticalAlignment="Top" Width="164" Click="Button_Click"/>

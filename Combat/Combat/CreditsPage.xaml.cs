@@ -33,7 +33,7 @@ namespace Combat
         {
             this.Frame.Navigate(typeof(MainPage));
         }
-
+            //MainPage.Content = new MainPage();
         public void creditText()
         {
             CreditsText.Text = "Maxx Achtman" + System.Environment.NewLine + "Christopher Ciolek" + System.Environment.NewLine
