@@ -1,4 +1,4 @@
-﻿<Page
+﻿<Page x:Name="TestBox"
     x:Class="Combat.HowToPlayPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,8 +8,12 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
+    <Grid KeyDown="Grid_KeyDown">
+        <MediaElement x:Name="myMedia" Source="Test.mp3" AutoPlay="True" Height="0" Width="0" Volume="100"  />
         <Button HorizontalAlignment="Center" VerticalAlignment="Top" Height="71" Width="395" Click="BackButton" Margin="0,106,0,0">Return to Main Page</Button>
         <TextBox HorizontalAlignment="Left" Height="384" Margin="344,355,0,0" Text="Welcome to the game combat!" VerticalAlignment="Top" Width="823"/>
+        <TextBox x:Name="TestBox1" HorizontalAlignment="Left" Margin="684,274,0,0" Text="Firstnoext" VerticalAlignment="Top"/>
+        <TextBox x:Name="TestBox2" HorizontalAlignment="Left" Margin="868,290,0,0" Text="MyText" VerticalAlignment="Top" />
+        <MediaElement HorizontalAlignment="Left" Height="100" Margin="301,250,0,0" VerticalAlignment="Top" Width="100"/>
     </Grid>
 </Page>

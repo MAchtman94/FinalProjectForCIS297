@@ -53,5 +53,10 @@ namespace Combat
         {
             WidthBox.Text = Regex.Replace(WidthBox.Text, "[^0-9]+", "");
         }
+
+        private void MainMenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage));
+        }
     }
 }

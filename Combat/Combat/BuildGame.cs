@@ -7,7 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Windows.Gaming.Input;
 using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 
 namespace Combat
@@ -28,6 +30,7 @@ namespace Combat
         private List<ICollidable> collidables;
         private bool isShooting;
         private bool gameOver;
+        public int sound { get; set; }
 
         private Gamepad controller;
 
@@ -77,7 +80,6 @@ namespace Combat
             CreateHealth();
         }
 
-
         //Messing with Health bars
         public void CreateHealth()
         {
@@ -100,8 +102,86 @@ namespace Combat
             drawables.Add(barValuePlayerOnePartOne);
         }
 
+        public void KeyDown(char input)
+        {
+            switch(input)
+            {
+                case 'W':
+                    playerTank.IsUp = true;
+                    playerTank.IsDown = false;
+                    break;
+                case 'A':
+                    playerTank.IsLeft = true;
+                    playerTank.IsRight = false;
+                    break;
+                case 'S':
+                    playerTank.IsUp = false;
+                    playerTank.IsDown = true;
+                    break;
+                case 'D':
+                    playerTank.IsLeft = false;
+                    playerTank.IsRight = true;
+                    break;
+                case 'E': playerTank.TankIsShooting = true;
+                    break;
+
+                case 'I':
+                    otherTank.IsUp = true;
+                    otherTank.IsDown = false;
+                    break;
+                case 'J':
+                    otherTank.IsLeft = true;
+                    otherTank.IsRight = false;
+                    break;
+                case 'K':
+                    otherTank.IsUp = false;
+                    otherTank.IsDown = true;
+                    break;
+                case 'L':
+                    otherTank.IsLeft = false;
+                    otherTank.IsRight = true;
+                    break;
+                case 'O':
+                    otherTank.TankIsShooting = true;
+                    break;
+            }
+        }
+
+        public void KeyUp(char input)
+        {
+            switch (input)
+            {
+                case 'W':
+                    playerTank.IsUp = false;
+                    break;
+                case 'A':
+                    playerTank.IsLeft = false;
+                    break;
+                case 'S':
+                    playerTank.IsDown = false;
+                    break;
+                case 'D':
+                    playerTank.IsRight = false;
+                    break;
+
+                case 'I':
+                    otherTank.IsUp = false;
+                    break;
+                case 'J':
+                    otherTank.IsLeft = false;
+                    break;
+                case 'K':
+                    otherTank.IsDown = false;
+                    break;
+                case 'L':
+                    otherTank.IsRight = false;
+                    break;
+            }
+        }
+
         public void Update()
         {
+            //*************************Gamepad Control
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
@@ -249,7 +329,208 @@ namespace Combat
                 
                 //bool isButtonPressed;
             }
-          
+
+            //****************Keyboard Control
+            else
+            {
+                gameOver = false;
+
+                if (!gameOver)
+                {
+                    if (!isShooting)
+                    {
+                        //Player Tank
+                        if(playerTank.IsUp == true)
+                        {
+                            sound = 1;
+                            playerTank.Y -= 5;
+                            playerTankPartTwo.Y -= 5;
+                        }
+                        if (playerTank.IsLeft == true)
+                        {
+                            playerTank.X -= 5;
+                            playerTankPartTwo.X -= 5;
+                        }
+                        if (playerTank.IsDown == true)
+                        {
+                            playerTank.Y += 5;
+                            playerTankPartTwo.Y += 5;
+                        }
+                        if (playerTank.IsRight == true)
+                        {
+                            playerTank.X += 5;
+                            playerTankPartTwo.X += 5;
+                        }
+
+                        //Other Tank
+                        if (otherTank.IsUp == true)
+                        {
+                            otherTank.Y -= 5;
+                            otherTankPartTwo.Y -= 5;
+                        }
+                        if (otherTank.IsLeft == true)
+                        {
+                            otherTank.X -= 5;
+                            otherTankPartTwo.X -= 5;
+                        }
+                        if (otherTank.IsDown == true)
+                        {
+                            otherTank.Y += 5;
+                            otherTankPartTwo.Y += 5;
+                        }
+                        if (otherTank.IsRight == true)
+                        {
+                            otherTank.X += 5;
+                            otherTankPartTwo.X += 5;
+                        }
+                    }
+
+                    //Removing the entire health bar not each square
+                    /*if (controls.Buttons.HasFlag(GamepadButtons.Y))
+                    {
+                        bool hit = true;
+
+                        foreach (var health in barPlayer.ToList())
+                        {
+                            if (hit == true)
+                            {
+                                barPlayer.Remove(health);
+                                drawables.Remove(health);
+                                hit = false;
+                            }
+                        }
+                    }*/
+
+                    if (playerTank.TankIsShooting == true)
+                    {
+                        //Looking at the instance of the bullets
+                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
+
+                        if (playerTank.IsUp)
+                        {
+                            playerBullet.TravelingUpward = true;
+                            if(playerTank.IsLeft) { playerBullet.DiagnolTravelLeft = true; }
+                            if(playerTank.IsRight) { playerBullet.DiagnolTravelRight = true; }
+                        }
+                        else if (playerTank.IsDown)
+                        {
+                            playerBullet.TravelingDownward = true;
+                            if (playerTank.IsLeft) { playerBullet.DiagnolTravelLeft = true; }
+                            if (playerTank.IsRight) { playerBullet.DiagnolTravelRight = true; }
+                        }
+                        else if(playerTank.IsLeft) {playerBullet.TravelingLeftWard = true;}
+
+
+                        //Include traveling before adding to list
+                        playerBullets.Add(playerBullet);
+
+                        drawables.Add(playerBullet);
+                    }
+
+                    if (otherTank.TankIsShooting == true)
+                    {
+                        //Looking at the instance of the bullets
+                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, Colors.Orange);
+
+                        if (otherTank.IsUp)
+                        {
+                            otherBullet.TravelingUpward = true;
+                            if (otherTank.IsLeft) { otherBullet.DiagnolTravelLeft = true; }
+                            if (otherTank.IsRight) { otherBullet.DiagnolTravelRight = true; }
+                        }
+                        else if (otherTank.IsDown)
+                        {
+                            otherBullet.TravelingDownward = true;
+                            if (otherTank.IsLeft) { otherBullet.DiagnolTravelLeft = true; }
+                            if (otherTank.IsRight) { otherBullet.DiagnolTravelRight = true; }
+                        }
+                        else if (otherTank.IsLeft) { otherBullet.TravelingLeftWard = true; }
+
+
+                        //Include traveling before adding to list
+                        otherBullets.Add(otherBullet);
+
+                        drawables.Add(otherBullet);
+                    }
+
+                    //Movement update for bullets
+                    foreach (var player in playerBullets)
+                    {
+                        player.Update();
+                    }
+
+                    foreach (var other in otherBullets)
+                    {
+                        other.Update();
+                    }
+
+                    if (barPlayer.Count == 0)
+                    {
+                        gameOver = true;
+                    }
+                }
+                else
+                {
+
+                }
+
+                //Testing if bullet collides with walls, internal and external
+                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
+                foreach (var bullet in playerBullets)
+                {
+                    foreach (var inWall in interiorWalls)
+                    {
+                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    foreach (var exWall in exteriorWalls)
+                    {
+                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
+                    {
+                        bullet.removeBullet(bullet);
+                    }
+                }
+                foreach (var bullet in otherBullets)
+                {
+                    foreach (var inWall in interiorWalls)
+                    {
+                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    foreach (var exWall in exteriorWalls)
+                    {
+                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                    {
+                        bullet.removeBullet(bullet);
+                    }
+                }
+                // ----> Work in progress: Crude statement to try and lock the players so long as they hit each other; they can't pass through one another. Mainly a placeholder until testing.
+                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+                {
+                    playerTank.X = playerTank.X;
+                    playerTank.Y = playerTank.Y;
+
+                    otherTank.X = otherTank.X;
+                    otherTank.Y = otherTank.Y;
+                }
+
+                //bool isButtonPressed;
+            }
+
         }
 
         public void DrawGame(CanvasDrawingSession canvas)
@@ -280,6 +561,12 @@ namespace Combat
             public int AngleX { get; set; }
             public int AngleY { get; set; }
             public Color Colors { get; set; }
+
+            public bool IsUp { get; set;  } 
+            public bool IsDown { get; set; }
+            public bool IsLeft { get; set; }
+            public bool IsRight { get; set; }
+            public bool TankIsShooting { get; set; }
 
             //Determine front of tank position
             bool TankUpward { get; set; }
@@ -425,6 +712,12 @@ namespace Combat
                 Height = height;
                 Width = width;
                 Color = color;
+
+                TravelingLeftWard = false;
+                TravelingDownward = false;
+                TravelingUpward = false;
+                DiagnolTravelLeft = false;
+                DiagnolTravelRight = false;
             }
 
             public void Update()
