@@ -14,7 +14,5 @@
         <Button HorizontalAlignment="Center" Margin="0,660,0,0" VerticalAlignment="Top" Click="Credits">Credits</Button>
         <Frame x:Name="CreditsPage"></Frame>
         <Frame x:Name="HowToPlayPage"></Frame>
-        <Frame x:Name="NewGamePage"></Frame>
-        <Frame x:Name="StageEditPage"></Frame>
     </Grid>
 </Page>

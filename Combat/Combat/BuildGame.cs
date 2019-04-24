@@ -15,6 +15,11 @@ namespace Combat
     public class BuildGame
     {
         public int gameTypeToBuild { get; set; }
+        public int getColorTypePlayerOne { get; set; }
+        public int getColorTypePlayerTwo { get; set; }
+        public Color colorTypePlayerOne { get; set; }
+        public Color colorTypePlayerTwo { get; set; }
+        
 
         private Tank playerTank;
         private Tank otherTank;
@@ -37,17 +42,18 @@ namespace Combat
 
         public BuildGame()
         {
+            ColorTypePlayerOne();
+            ColorTypePlayerTwo();
+
             drawables = new List<IDrawable>();
             drawablesTwo = new List<IDrawable>();
             drawablesThree = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Black);
-            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
 
+            otherTank = new Tank(300, 300, 60, 60, 90, 90, colorTypePlayerTwo);
 
-            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
             otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
 
             //Looking at the instance of the bullets
@@ -90,16 +96,58 @@ namespace Combat
             CreateHealth();
             CreateHealthForOther();
         }
+        
+        public void ColorTypePlayerOne()
+        {
+            if (getColorTypePlayerOne == 1)
+            {
+                colorTypePlayerOne = Colors.Orange;
+            }
+            else if (getColorTypePlayerOne == 2)
+            {
+                colorTypePlayerOne = Colors.Black;
+            }
+            else if (getColorTypePlayerOne == 3)
+            {
+                colorTypePlayerOne = Colors.Purple;
+            }
+            else
+            {
+                colorTypePlayerOne = Colors.Pink;
+            }
 
+            playerTank = new Tank(30, 30, 60, 60, 90, 90, colorTypePlayerOne);
+            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
+        }
+
+        public void ColorTypePlayerTwo()
+        {
+            if (getColorTypePlayerTwo == 1)
+            {
+                colorTypePlayerTwo = Colors.Orange;
+            }
+            else if (getColorTypePlayerTwo == 2)
+            {
+                colorTypePlayerTwo = Colors.Black;
+            }
+            else if (getColorTypePlayerTwo == 3)
+            {
+                colorTypePlayerTwo = Colors.Purple;
+            }
+            else
+            {
+                colorTypePlayerTwo = Colors.Pink;
+            }
+        }
 
         //Creating player one health bar
         public void CreateHealth()
         {
-            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, Colors.Black);
-            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, Colors.Black);
-            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, Colors.Black);
-            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, Colors.Black);
-            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, Colors.Black);
+            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, colorTypePlayerOne);
+            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, colorTypePlayerOne);
+            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, colorTypePlayerOne);
+            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, colorTypePlayerOne);
+            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, colorTypePlayerOne);
 
             barPlayer.Add(barValuePlayerOnePartFive);
             barPlayer.Add(barValuePlayerOnePartFour);
@@ -129,11 +177,11 @@ namespace Combat
         //Creating player two health bar
         public void CreateHealthForOther()
         {
-            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, Colors.Blue);
-            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, Colors.Blue);
-            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, Colors.Blue);
-            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, Colors.Blue);
-            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, Colors.Blue);
+            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, colorTypePlayerTwo);
+            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, colorTypePlayerTwo);
+            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, colorTypePlayerTwo);
+            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, colorTypePlayerTwo);
+            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, colorTypePlayerTwo);
 
             barOther.Add(barValueOtherOnePartOne);
             barOther.Add(barValueOtherOnePartTwo);
@@ -279,8 +327,8 @@ namespace Combat
                     if (controls.Buttons.HasFlag(GamepadButtons.B))
                     {
                         //Looking at the instance of the bullets
-                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, Colors.Blue);
-                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, Colors.Orange);
+                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, colorTypePlayerOne);
+                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, colorTypePlayerTwo);
 
                         otherBullet.TravelingLeftWard = true;
 
