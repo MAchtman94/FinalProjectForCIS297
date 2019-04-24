@@ -34,11 +34,6 @@ namespace Combat
 
         public BuildGame()
         {
-            //var map = new TmxMap("test.tmx");
-            //var version = map.Version;
-            //var myTileset = map.Tilesets["tankImage"];
-            //var myLayer = map.Layers[1];
-            //var hiddenChest = map.ObjectGroups["Chests"].Objects["hiddenChest"];
             drawables = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
@@ -60,8 +55,8 @@ namespace Combat
 
             //Boundary of game
             var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
-            var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow);
-            var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
+            var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow, 2);
+            //var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
             // var insideWallRightSide = new InteriorWalls(100, 50, 50, 100, Colors.Black);
 
             //Adding outside wall
@@ -69,8 +64,8 @@ namespace Combat
             exteriorWalls.Add(outsideWall);
             drawables.Add(fillInWall);
             //interiorWalls.Add(fillInWall);
-            drawables.Add(insideWallLeftSide);
-            interiorWalls.Add(insideWallLeftSide);
+            //drawables.Add(insideWallLeftSide);
+            //interiorWalls.Add(insideWallLeftSide);
             // drawables.Add(insideWallRightSide);
             // interiorWalls.Add(insideWallRightSide);
 
@@ -402,14 +397,16 @@ namespace Combat
             public int Height { get; set; }
             public int Width { get; set; }
             public Color Color { get; set; }
+            public int mapNum { get; set; }
 
-            public InteriorWalls(int x, int y, int height, int width, Color color)
+            public InteriorWalls(int x, int y, int height, int width, Color color, int mapNum)
             {
                 X = x;
                 Y = y;
                 Height = height;
                 Width = width;
                 Color = color;
+                this.mapNum = mapNum;
             }
 
             public bool Collides(int x, int y, int height, int width)
@@ -424,10 +421,62 @@ namespace Combat
 
             public void Draw(CanvasDrawingSession canvas)
             {
-                //builds the map
-                canvas.FillRectangle(X, Y, Height, Width, Color);
-                //starts at x = 10, y = 10, height(x) = 1000, width(y) = 700, use Colors.???
-                canvas.FillRectangle(
+                //MAP #1
+
+                if (mapNum == 1)
+                {
+                    //map color
+                    canvas.FillRectangle(X, Y, Height, Width, Color);
+                    //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
+                    canvas.FillRectangle(175, 120, 50, 500, Colors.Black);  //1
+                    canvas.FillRectangle(125, 120, 100, 50, Colors.Black);   //2
+                    canvas.FillRectangle(125, 570, 75, 50, Colors.Black);   //3
+
+                    canvas.FillRectangle(460, 20, 120, 100, Colors.Blue);   //4
+                    canvas.FillRectangle(460, 220, 120, 100, Colors.Red);   //5
+                    canvas.FillRectangle(460, 420, 120, 100, Colors.Green);   //6
+                    canvas.FillRectangle(460, 620, 120, 100, Colors.Blue);   //7
+
+
+                    canvas.FillRectangle(815, 120, 50, 500, Colors.Black);   //8
+                    canvas.FillRectangle(840, 120, 75, 50, Colors.Black);   //9
+                    canvas.FillRectangle(840, 570, 75, 50, Colors.Black);   //10
+                }
+
+                if (mapNum == 2)
+                {
+                    //map color
+                    canvas.FillRectangle(X, Y, Height, Width, Color);
+
+                    //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
+
+                    canvas.FillRectangle(160, 20, 70,100, Colors.Blue); //1
+                    canvas.FillRectangle(160, 245, 70, 250, Colors.Red); //2
+                    canvas.FillRectangle(160, 620, 70, 100, Colors.Green ); //3
+
+                    canvas.FillRectangle(376,120,70,200, Colors.Blue ); //4
+                    canvas.FillRectangle(376,420,70,200, Colors.Red ); //5
+
+                    canvas.FillRectangle(592,120,70,200, Colors.Blue ); //7
+                    canvas.FillRectangle(592,420,70,200, Colors.Red ); //8
+
+                    canvas.FillRectangle(810,20,70,100, Colors.Blue ); //9
+                    canvas.FillRectangle(810,245,70,250, Colors.Red ); //10
+                    canvas.FillRectangle(810,620,70,100, Colors.Green ); //11
+
+
+                }
+
+                if (mapNum == 3)
+                {
+                    //map color
+                    canvas.FillRectangle(X, Y, Height, Width, Color);
+
+                    //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
+
+                    
+
+                }
             }
         }
 
