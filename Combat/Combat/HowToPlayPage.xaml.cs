@@ -46,5 +46,10 @@ namespace Combat
                 "First person to get hit 5 times loses!" + System.Environment.NewLine + "Player one's health bar is on the left and player two will be on the right" + System.Environment.NewLine +
                 "Good luck!";
         }
+
+        private void Grid_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+
+        }
     }
 }

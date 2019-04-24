@@ -24,14 +24,9 @@ namespace Combat
     /// </summary>
     public sealed partial class NewGamePage : Page
     {
-        BuildGame buildGame;
-        MediaElement mySong;
         public NewGamePage()
         {
             this.InitializeComponent();
-            buildGame = new BuildGame();
-            mySong = new MediaElement();
-            playBackground();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -42,35 +37,10 @@ namespace Combat
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(GameTypeTwo));
-
         }
 
-        private void control_Loaded(object sender, RoutedEventArgs e)
+        private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            // Register for keyboard events
-            Window.Current.CoreWindow.KeyDown += KeyDown_UIThread;
-            Window.Current.CoreWindow.KeyUp += KeyUp_UIThread;
-        }
-
-        private void control_Unloaded(object sender, RoutedEventArgs e)
-        {
-            // Unregister keyboard events
-            Window.Current.CoreWindow.KeyDown -= KeyDown_UIThread;
-            Window.Current.CoreWindow.KeyUp -= KeyUp_UIThread;
-
-            // Explicitly remove references to allow the Win2D controls to get garbage collected
-            canvas.RemoveFromVisualTree();
-            canvas = null;
-        }
-
-        private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
-        {
-			buildGame.DrawGame(args.DrawingSession);
-		}
-
-
-		private void Button_Click_2(object sender, RouttedEventArgs e)
-		{
             this.Frame.Navigate(typeof(GameTypeThree));
         }
 
@@ -78,119 +48,7 @@ namespace Combat
         {
 			this.Frame.Navigate(typeof(MainPage));
 		}
-		private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
-        {
-            buildGame.Update();
-            /*if(buildGame.sound == 1)
-            {
-                playBackground();
 
-                buildGame.sound = 0;
-            }*/
-        }
-
-        private void KeyDown_UIThread(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
-        {
-            char pressedLetter = GetPressedLetter(args);
-
-            if (pressedLetter == 0)
-            {
-                return;
-            }
-
-            args.Handled = true;
-
-            var action = canvas.RunOnGameLoopThreadAsync(() => buildGame.KeyDown(pressedLetter));
-        }
-
-        private void KeyUp_UIThread(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
-        {
-            char releasedLetter = GetPressedLetter(args);
-
-            if (releasedLetter == 0)
-            {
-                return;
-            }
-
-            args.Handled = true;
-
-            var action = canvas.RunOnGameLoopThreadAsync(() => buildGame.KeyUp(releasedLetter));
-        }
-
-        public async void playBackground()
-        {
-            //Main Soong
-            mySong.IsLooping = true;
-            Windows.Storage.StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-            Windows.Storage.StorageFile file;
-            file = await folder.GetFileAsync("Background.mp3");
-            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
-            mySong.SetSource(stream, file.ContentType);
-            mySong.Play();
-   
-            //Game Ovder
-            /*if (buildGame.sound == 1)
-            {
-                mySong.Stop();
-                mySong.IsLooping = true;
-                Windows.Storage.StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-                Windows.Storage.StorageFile file;
-                file = await folder.GetFileAsync("GameOver.mp3");
-                var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
-                mySong.SetSource(stream, file.ContentType);
-                mySong.Play();
-            }*/
-        }
-
-        //Doesn't work.
-        /*public async void playExplosion()
-        {
-            MediaElement explosion = new MediaElement();
-            explosion.IsLooping = false;
-            explosion.AutoPlay = false;
-            Windows.Storage.StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
-            Windows.Storage.StorageFile file;
-            file = await folder.GetFileAsync("explosion.mp3");
-            var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
-            explosion.SetSource(stream, file.ContentType);
-            explosion.Play();
-        }*/
-
-        private static char GetPressedLetter(Windows.UI.Core.KeyEventArgs args)
-        {
-            var key = args.VirtualKey;
-            char pressed = (char)0;
-
-            switch (key)
-            {
-                case Windows.System.VirtualKey.A: pressed = 'A'; break;
-                case Windows.System.VirtualKey.B: pressed = 'B'; break;
-                case Windows.System.VirtualKey.C: pressed = 'C'; break;
-                case Windows.System.VirtualKey.D: pressed = 'D'; break;
-                case Windows.System.VirtualKey.E: pressed = 'E'; break;
-                case Windows.System.VirtualKey.F: pressed = 'F'; break;
-                case Windows.System.VirtualKey.G: pressed = 'G'; break;
-                case Windows.System.VirtualKey.H: pressed = 'H'; break;
-                case Windows.System.VirtualKey.I: pressed = 'I'; break;
-                case Windows.System.VirtualKey.J: pressed = 'J'; break;
-                case Windows.System.VirtualKey.K: pressed = 'K'; break;
-                case Windows.System.VirtualKey.L: pressed = 'L'; break;
-                case Windows.System.VirtualKey.M: pressed = 'M'; break;
-                case Windows.System.VirtualKey.N: pressed = 'N'; break;
-                case Windows.System.VirtualKey.O: pressed = 'O'; break;
-                case Windows.System.VirtualKey.P: pressed = 'P'; break;
-                case Windows.System.VirtualKey.Q: pressed = 'Q'; break;
-                case Windows.System.VirtualKey.R: pressed = 'R'; break;
-                case Windows.System.VirtualKey.S: pressed = 'S'; break;
-                case Windows.System.VirtualKey.T: pressed = 'T'; break;
-                case Windows.System.VirtualKey.U: pressed = 'U'; break;
-                case Windows.System.VirtualKey.V: pressed = 'V'; break;
-                case Windows.System.VirtualKey.W: pressed = 'W'; break;
-                case Windows.System.VirtualKey.X: pressed = 'X'; break;
-                case Windows.System.VirtualKey.Y: pressed = 'Y'; break;
-                case Windows.System.VirtualKey.Z: pressed = 'Z'; break;
-            }
-            return pressed;
-        }
+        
     }
 }

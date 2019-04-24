@@ -243,7 +243,7 @@ namespace Combat
         }
         public void Update()
         {
-            //*************************Gamepad Control
+            //********************GAMEPAD CONTROL**************************/
             if (Gamepad.Gamepads.Count > 0)
             {
                 controller = Gamepad.Gamepads.First();
@@ -511,7 +511,7 @@ namespace Combat
                 //bool isButtonPressed;
             }
 
-            //****************Keyboard Control
+            //***************KEYBOARD CONTROL**************/
             else
             {
                 gameOver = false;
@@ -652,10 +652,6 @@ namespace Combat
                         gameOver = true;
                     }
                 }
-                else
-                {
-
-                }
 
                 //Testing if bullet collides with walls, internal and external
                 //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
@@ -702,14 +698,14 @@ namespace Combat
                     }
                 }
                 // ----> Work in progress: Crude statement to try and lock the players so long as they hit each other; they can't pass through one another. Mainly a placeholder until testing.
-                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+               /*if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
                 {
                     playerTank.X = playerTank.X;
                     playerTank.Y = playerTank.Y;
 
                     otherTank.X = otherTank.X;
                     otherTank.Y = otherTank.Y;
-                }
+                }*/
 
                 //bool isButtonPressed;
             }
