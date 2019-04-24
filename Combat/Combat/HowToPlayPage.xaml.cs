@@ -30,7 +30,7 @@ namespace Combat
         private void BackButton(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(MainPage));
-
+            
         }
 
 
