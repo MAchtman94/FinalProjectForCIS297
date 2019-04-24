@@ -30,7 +30,7 @@ namespace Combat
         private List<ICollidable> collidables;
         private bool isShooting;
         private bool gameOver;
-        public int sound { get; set; }
+        //public int sound { get; set; }
 
         private Gamepad controller;
 
@@ -70,6 +70,7 @@ namespace Combat
             interiorWalls.Add(insideWallLeftSide);
             // drawables.Add(insideWallRightSide);
             // interiorWalls.Add(insideWallRightSide);
+            //sound = 0;
 
             drawables.Add(playerTank);
             drawables.Add(otherTank);
@@ -342,7 +343,6 @@ namespace Combat
                         //Player Tank
                         if(playerTank.IsUp == true)
                         {
-                            sound = 1;
                             playerTank.Y -= 5;
                             playerTankPartTwo.Y -= 5;
                         }
@@ -425,6 +425,8 @@ namespace Combat
                         playerBullets.Add(playerBullet);
 
                         drawables.Add(playerBullet);
+
+                        playerTank.TankIsShooting = false;
                     }
 
                     if (otherTank.TankIsShooting == true)
@@ -451,6 +453,7 @@ namespace Combat
                         otherBullets.Add(otherBullet);
 
                         drawables.Add(otherBullet);
+                        otherTank.TankIsShooting = false;
                     }
 
                     //Movement update for bullets

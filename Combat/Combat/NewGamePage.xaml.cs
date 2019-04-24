@@ -25,12 +25,13 @@ namespace Combat
     public sealed partial class NewGamePage : Page
     {
         BuildGame buildGame;
-
+        MediaElement mySong;
         public NewGamePage()
         {
             this.InitializeComponent();
 
             buildGame = new BuildGame();
+            mySong = new MediaElement();
             playBackground();
         }
 
@@ -60,15 +61,12 @@ namespace Combat
         private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
         {
             buildGame.Update();
-            if(buildGame.sound != 0)
+            /*if(buildGame.sound == 1)
             {
-                if(buildGame.sound == 1)
-                {
-                    playExplosion();
-                }
+                playBackground();
 
                 buildGame.sound = 0;
-            }
+            }*/
         }
 
         private void KeyDown_UIThread(Windows.UI.Core.CoreWindow sender, Windows.UI.Core.KeyEventArgs args)
@@ -101,19 +99,31 @@ namespace Combat
 
         public async void playBackground()
         {
-
-            MediaElement mysong = new MediaElement();
-            mysong.IsLooping = false;
+            //Main Soong
+            mySong.IsLooping = true;
             Windows.Storage.StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
             Windows.Storage.StorageFile file;
-            file = await folder.GetFileAsync("Test.mp3");
+            file = await folder.GetFileAsync("Background.mp3");
             var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
-            mysong.SetSource(stream, file.ContentType);
-            mysong.Play();
-
+            mySong.SetSource(stream, file.ContentType);
+            mySong.Play();
+   
+            //Game Ovder
+            /*if (buildGame.sound == 1)
+            {
+                mySong.Stop();
+                mySong.IsLooping = true;
+                Windows.Storage.StorageFolder folder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync("Assets");
+                Windows.Storage.StorageFile file;
+                file = await folder.GetFileAsync("GameOver.mp3");
+                var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
+                mySong.SetSource(stream, file.ContentType);
+                mySong.Play();
+            }*/
         }
 
-        public async void playExplosion()
+        //Doesn't work.
+        /*public async void playExplosion()
         {
             MediaElement explosion = new MediaElement();
             explosion.IsLooping = false;
@@ -124,7 +134,7 @@ namespace Combat
             var stream = await file.OpenAsync(Windows.Storage.FileAccessMode.Read);
             explosion.SetSource(stream, file.ContentType);
             explosion.Play();
-        }
+        }*/
 
         private static char GetPressedLetter(Windows.UI.Core.KeyEventArgs args)
         {
