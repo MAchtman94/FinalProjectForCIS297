@@ -62,7 +62,7 @@ namespace Combat
             drawables.Add(insideWallLeftSide);
             interiorWalls.Add(insideWallLeftSide);
             // drawables.Add(insideWallRightSide);
-            // interiorWalls.Add(insideWallRightSide);
+            //interiorWalls.Add(insideWallRightSide);
 
             drawables.Add(playerTank);
             drawables.Add(otherTank);
@@ -120,9 +120,10 @@ namespace Combat
                 }
 
                 //Testing if bullet collides with walls, internal and external
-                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
+              
                 foreach (var bullet in playerBullets)
                 {
+                    /*
                     foreach(var inWall in interiorWalls)
                     {
                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height,inWall.Width))
@@ -130,6 +131,7 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+                    */
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -137,45 +139,52 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+                    /*
                     if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height,bullet.Width))
                     {
                         bullet.removeBullet(bullet);
                     }
+                    */
                 }
-                foreach (var bullet in otherBullets)
-                {
-                    foreach (var inWall in interiorWalls)
-                    {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    foreach (var exWall in exteriorWalls)
-                    {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
-                    {
-                        bullet.removeBullet(bullet);
-                    }
-                }
-                // ----> Work in progress: Crude statement to try and lock the players so long as they hit each other; they can't pass through one another. Mainly a placeholder until testing.
-                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
-                {
-                    playerTank.X = playerTank.X;
-                    playerTank.Y = playerTank.Y;
+                /*
+               foreach (var bullet in otherBullets)
+               {
+                   foreach (var inWall in interiorWalls)
+                   {
+                       if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                       {
+                           bullet.removeBullet(bullet);
+                       }
+                   }
+                   foreach (var exWall in exteriorWalls)
+                   {
+                       if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                       {
+                           bullet.removeBullet(bullet);
+                       }
+                   }
 
-                    otherTank.X = otherTank.X;
-                    otherTank.Y = otherTank.Y;
-                }
-                
-                //bool isButtonPressed;
+                   if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                   {
+                       bullet.removeBullet(bullet);
+                   }
+
+               }
+               /*
+               // ----> Work in progress: Crude statement to try and lock the players so long as they hit each other; they can't pass through one another. Mainly a placeholder until testing.
+               if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+               {
+                   playerTank.X = playerTank.X;
+                   playerTank.Y = playerTank.Y;
+
+                   otherTank.X = otherTank.X;
+                   otherTank.Y = otherTank.Y;
+               }
+
+               //bool isButtonPressed;
+               */
             }
-          
+
         }
 
         public void DrawGame(CanvasDrawingSession canvas)
@@ -256,7 +265,7 @@ namespace Combat
 
             public bool Collides(int x, int y, int height, int width)
             {
-                return (x <= X || x <= Width) && (y >= Y || y >= Height);
+                return (x == 0 || x == Width) && (y == 0 || y == Height);
                
             }
 
