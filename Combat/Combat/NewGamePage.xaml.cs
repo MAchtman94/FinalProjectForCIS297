@@ -31,6 +31,8 @@ namespace Combat
             this.InitializeComponent();
 
             buildGame = new BuildGame();
+
+            buildGame.gameTypeToBuild = 0;
         }
 
         private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)

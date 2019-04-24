@@ -14,6 +14,8 @@ namespace Combat
 {
     public class BuildGame
     {
+        public int gameTypeToBuild { get; set; }
+
         private Tank playerTank;
         private Tank otherTank;
         private Tank playerTankPartTwo;
@@ -26,6 +28,7 @@ namespace Combat
         private List<InteriorWalls> interiorWalls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
+        private List<IDrawable> drawableTwo;
         private bool isShooting;
         private bool gameOver;
 
@@ -34,11 +37,13 @@ namespace Combat
         public BuildGame()
         {
             drawables = new List<IDrawable>();
+            drawableTwo = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
             playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Black);
             otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
+
 
             playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
             otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
@@ -70,6 +75,9 @@ namespace Combat
 
             drawables.Add(playerTank);
             drawables.Add(otherTank);
+
+            drawableTwo.Add(playerTank);
+            drawableTwo.Add(otherTank);
 
             drawables.Add(playerTankPartTwo);
             drawables.Add(otherTankPartTwo);
@@ -208,11 +216,25 @@ namespace Combat
             }
         }
 
+        //Draw the game
         public void DrawGame(CanvasDrawingSession canvas)
         {
-            foreach (var drawable in drawables)
+            //If we want game one, build it like this
+            if (gameTypeToBuild == 0)
             {
-                drawable.Draw(canvas);
+                foreach (var drawable in drawables)
+                {
+                    drawable.Draw(canvas);
+                }
+            }
+
+            //If we want game two, build it like this
+            else if (gameTypeToBuild == 1)
+            {
+                foreach (var drawables in drawableTwo)
+                {
+                    drawables.Draw(canvas);
+                }
             }
         }
 

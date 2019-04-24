@@ -11,5 +11,6 @@
     <Grid>
         <Button HorizontalAlignment="Center" Margin="0,82,0,0" VerticalAlignment="Top" Height="66" Width="271" Click="BackButton">Back to Main Page</Button>
         <Frame x:Name ="MainPage"></Frame>
+        
     </Grid>
 </Page>

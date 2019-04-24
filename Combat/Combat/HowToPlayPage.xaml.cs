@@ -29,8 +29,9 @@ namespace Combat
 
         private void BackButton(object sender, RoutedEventArgs e)
         {
-            //MainPage.Content = new MainPage();
-            //HowToPlayView.Content = null;
+            
         }
+
+
     }
 }
