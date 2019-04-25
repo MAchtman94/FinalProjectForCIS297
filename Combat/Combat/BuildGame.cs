@@ -374,6 +374,11 @@ namespace Combat
                     {
                         gameOver = true;
                     }
+
+                    if (gameOver)
+                    {
+                        return;
+                    }
                 }
 
                 //----------------------Collision-----------------------
@@ -628,7 +633,7 @@ namespace Combat
                         other.Update();
                     }
 
-                    if (barPlayer.Count == 0)
+                    if (barPlayer.Count == 0 || barOther.Count == 0)
                     {
                         gameOver = true;
                     }
