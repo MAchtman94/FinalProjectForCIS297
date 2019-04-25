@@ -29,6 +29,8 @@ namespace Combat
         {
             this.InitializeComponent();
 
+            buildGameThree = new BuildGame();
+
             buildGameThree.gameTypeToBuild = 3;
 
             mySong = new MediaElement();
