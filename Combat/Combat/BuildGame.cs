@@ -636,31 +636,35 @@ namespace Combat
                     }
                 }
 
-                //Not sure who the author is of this below -> Chris C.
-                /*
-                 foreach (var bullet in playerBullets)
-                 {
-                     foreach (var inWall in interiorWalls)
-                     {
-                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
-                         {
-                             bullet.removeBullet(bullet);
-                         }
-                     }
-                     foreach (var exWall in exteriorWalls)
-                     {
-                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                         {
-                             bullet.removeBullet(bullet);
-                         }
-                     }
-                     if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
-                     {
-                         bullet.removeBullet(bullet);
-                     }
-                 }
+                foreach (var bullet in playerBullets)
+                {
+                    foreach (var inWall in interiorWalls)
+                    {
+                        if (inWall.Collides(bullet.X, bullet.Y, bullet.Height, bullet.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    foreach (var exWall in exteriorWalls)
+                    {
+                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                    
+                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
+                    {
+                        bullet.removeBullet(bullet);
+
+
+                    }
+                    
+                }
+                
                  foreach (var bullet in otherBullets)
                  {
+                     
                      foreach (var inWall in interiorWalls)
                      {
                          if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
@@ -668,6 +672,7 @@ namespace Combat
                              bullet.removeBullet(bullet);
                          }
                      }
+
                      foreach (var exWall in exteriorWalls)
                      {
                          if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -675,12 +680,71 @@ namespace Combat
                              bullet.removeBullet(bullet);
                          }
                      }
-                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
-                     {
-                         bullet.removeBullet(bullet);
-                     }
-                 }
-                 */
+               
+                
+                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                    {
+                        bullet.removeBullet(bullet);
+                    }
+                
+                }
+                foreach (var wall in exteriorWalls)
+                {
+                    if (playerTank.CollidesTop() || playerTankPartTwo.CollidesTop())
+                    {
+                        playerTank.Y = playerTank.Y + 15;
+                        playerTankPartTwo.Y = playerTankPartTwo.Y + 15;
+                    }
+                    if (playerTank.CollidesBottom() || playerTankPartTwo.CollidesBottom())
+                    {
+                        playerTank.Y = playerTank.Y - 15;
+                        playerTankPartTwo.Y = playerTankPartTwo.Y - 15;
+                    }
+                    if (playerTank.CollidesLeft() || playerTankPartTwo.CollidesLeft())
+                    {
+                        playerTank.X = playerTank.X + 15;
+                        playerTankPartTwo.X = playerTankPartTwo.X + 15;
+                    }
+                    if (playerTank.CollidesRight() || playerTankPartTwo.CollidesRight())
+                    {
+                        playerTank.X = playerTank.X - 15;
+                        playerTankPartTwo.X = playerTankPartTwo.X - 15;
+                    }
+                }
+                foreach (var wall in exteriorWalls)
+                {
+                    if (otherTank.CollidesTop() || otherTankPartTwo.CollidesTop())
+                    {
+                        otherTank.Y = otherTank.Y + 15;
+                        otherTankPartTwo.Y = otherTankPartTwo.Y + 15;
+                    }
+                    if (otherTank.CollidesBottom() || otherTankPartTwo.CollidesBottom())
+                    {
+                        otherTank.Y = otherTank.Y - 15;
+                        otherTankPartTwo.Y = otherTankPartTwo.Y - 15;
+                    }
+                    if (otherTank.CollidesLeft() || otherTankPartTwo.CollidesLeft())
+                    {
+                        otherTank.X = otherTank.X + 15;
+                        otherTankPartTwo.X = otherTankPartTwo.X + 15;
+                    }
+                    if (otherTank.CollidesRight() || otherTankPartTwo.CollidesRight())
+                    {
+                        otherTank.X = otherTank.X - 15;
+                        otherTankPartTwo.X = otherTankPartTwo.X - 15;
+                    }
+                }
+
+
+
+                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+                {
+                    playerTank.X = playerTank.X;
+                    playerTank.Y = playerTank.Y;
+
+                    otherTank.X = otherTank.X;
+                    otherTank.Y = otherTank.Y;
+                }
             }
 
         }
