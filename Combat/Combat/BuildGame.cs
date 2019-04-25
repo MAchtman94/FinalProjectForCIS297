@@ -34,6 +34,8 @@ namespace Combat
         private List<ICollidable> collidables;
         private bool isShooting;
         private bool gameOver;
+        bool hitPlayer;
+        bool hitOther;
         //public int sound { get; set; }
 
         private Gamepad controller;
@@ -211,6 +213,7 @@ namespace Combat
                 drawables.Add(outsideWall);
                 exteriorWalls.Add(outsideWall);
                 drawables.Add(fillInWall);
+                interiorWalls.Add(fillInWall);
 
                 drawables.Add(playerTank);
                 drawables.Add(otherTank);
@@ -233,6 +236,7 @@ namespace Combat
                 drawables.Add(outsideWall);
                 exteriorWalls.Add(outsideWall);
                 drawables.Add(fillInWall);
+                interiorWalls.Add(fillInWall);
 
                 drawables.Add(playerTank);
                 drawables.Add(otherTank);
@@ -255,6 +259,7 @@ namespace Combat
                 drawables.Add(outsideWall);
                 exteriorWalls.Add(outsideWall);
                 drawables.Add(fillInWall);
+                interiorWalls.Add(fillInWall);
 
                 drawables.Add(playerTank);
                 drawables.Add(otherTank);
@@ -304,37 +309,32 @@ namespace Combat
                     }
 
                     //Removing health bar behavior
-                    if (controls.Buttons.HasFlag(GamepadButtons.Y))
-                    { 
-                        bool hit = true;
-
+                    
                         foreach (var health in barPlayer.ToList())
                         {
                             //Only the first instance in the list will be removed
-                            if (hit == true)
+                            if (hitPlayer == true)
                             {
                                 barPlayer.Remove(health);
                                 drawables.Remove(health);
-                                hit = false;
+                                hitPlayer = false;
                             }
                         }
-                    }
-
+                    
                     //Removing health bar for other player
-                    if (controls.Buttons.HasFlag(GamepadButtons.X))
-                    {
-                        bool hit = true;
+                    
+                       
 
                         foreach (var health in barOther.ToList())
                         {
-                            if (hit == true)
+                            if (hitOther == true)
                             {
                                 barOther.Remove(health);
                                 drawables.Remove(health);
-                                hit = false;
+                                hitOther = false;
                             }
                         }
-                    }
+                    
 
                     //Debug mode does not like the A button....using B button for bullet firing
                     if (controls.Buttons.HasFlag(GamepadButtons.B))
@@ -379,36 +379,10 @@ namespace Combat
                 //----------------------Collision-----------------------
                 foreach (var bullet in playerBullets)
                 {
+                    
                     foreach (var inWall in interiorWalls)
                     {
-                        if (inWall.Collides(bullet.X, bullet.Y, bullet.Height, bullet.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    foreach (var exWall in exteriorWalls)
-                    {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    /*
-                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
-                    {
-                        bullet.removeBullet(bullet);
-
-
-                    }
-                    */
-                }
-               /*
-                foreach (var bullet in otherBullets)
-                {
-                    /*
-                    foreach (var inWall in interiorWalls)
-                    {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        if (bullet.inWallCollides(inWall.X, inWall.Y, inWall.Height, inWall.Width))
                         {
                             bullet.removeBullet(bullet);
                         }
@@ -419,16 +393,46 @@ namespace Combat
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
                         {
                             bullet.removeBullet(bullet);
+                            
                         }
                     }
-              */      
-                    /*
-                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                    
+                    if (bullet.tankCollides(otherTank.X, otherTank.Y, otherTank.Height, otherTank.Width) || bullet.tankCollides(otherTankPartTwo.X, otherTankPartTwo.Y, otherTankPartTwo.Height, otherTankPartTwo.Width))
                     {
+                        hitOther = true;
+                        bullet.removeBullet(bullet);
+                        
+                    }
+                    
+                }
+               
+                foreach (var bullet in otherBullets)
+                {
+                    /*
+                    foreach (var inWall in interiorWalls)
+                    {
+                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                     */
+                    foreach (var exWall in exteriorWalls)
+                    {
+                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        {
+                            bullet.removeBullet(bullet);
+                        }
+                    }
+                 
+                    
+                    if (bullet.tankCollides(playerTank.X, playerTank.Y, playerTank.Height, playerTank.Width) || bullet.tankCollides(playerTankPartTwo.X, playerTankPartTwo.Y, playerTankPartTwo.Height, playerTankPartTwo.Width))
+                    {
+                        hitPlayer = true;
                         bullet.removeBullet(bullet);
                     }
-                    */
-                //}
+                    
+                }
             foreach (var wall in exteriorWalls)
             {
                     if (playerTank.CollidesTop() || playerTankPartTwo.CollidesTop())
@@ -477,15 +481,16 @@ namespace Combat
             }
 
 
-
+            /*
             if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
                 {
-                    playerTank.X = playerTank.X;
-                    playerTank.Y = playerTank.Y;
+                    playerTank.X = playerTank.X - 15;
+                    playerTank.Y = playerTank.Y -15;
 
-                    otherTank.X = otherTank.X;
-                    otherTank.Y = otherTank.Y;
+                    otherTank.X = otherTank.X - 15;
+                    otherTank.Y = otherTank.Y + 15;
                 }
+                */
                 
                 //----------------------^^^Collision^^^--------------------------------
 
@@ -545,22 +550,7 @@ namespace Combat
                             otherTankPartTwo.X += 5;
                         }
                     }
-
-                    //Removing the entire health bar not each square
-                    /*if (controls.Buttons.HasFlag(GamepadButtons.Y))
-                    {
-                        bool hit = true;
-
-                        foreach (var health in barPlayer.ToList())
-                        {
-                            if (hit == true)
-                            {
-                                barPlayer.Remove(health);
-                                drawables.Remove(health);
-                                hit = false;
-                            }
-                        }
-                    }*/
+                    
 
                     if (playerTank.TankIsShooting == true)
                     {
@@ -814,7 +804,7 @@ namespace Combat
             {
                 // Same idea/concept of exterior wall collision function
 
-                return (x >= Height && (x <= Height + X)) && ((y <= Width + Y) && y >= Width);
+                return (x <= X || x <= Height || x <= Width || x <= Y); 
 
                 //return x == X || x == height; //|| y == Height; //Test statement MAXX
 
@@ -1005,7 +995,7 @@ namespace Combat
                 bullet.Height = 0;
                 bullet.X = -10;
                 bullet.Y = -10;
-             
+                
                 
             }
             public bool Collides(int x, int y, int height, int width)
@@ -1017,6 +1007,16 @@ namespace Combat
                 //return (x  <= X || x <= Width) && (y >= Y || y <= Height); //Test statement MAXX
             }
 
+            public bool tankCollides(int x, int y, int height, int width)
+            {
+               return (x == X && ((y <= Y) && (Y >= width)));
+                
+            }
+            public bool inWallCollides(int x, int y, int height, int width)
+            {
+                return ( X <= x || X >= height) || (y >= Y || Y >= width);
+           
+            }
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.FillRectangle(X, Y, Height, Width, Color);
