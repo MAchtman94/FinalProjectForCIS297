@@ -18,7 +18,7 @@ namespace Combat
     public class BuildGame
     {
         public int gameTypeToBuild { get; set; }
-        
+        public string gameOverText { get; set; }
 
         private Tank playerTank;
         private Tank otherTank;
@@ -45,18 +45,18 @@ namespace Combat
             interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
 
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Orange);
-            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
-
-            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
-            otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
-
             //Looking at the instance of the bullets
             playerBullets = new List<Bullets>();
             otherBullets = new List<Bullets>();
 
             barPlayer = new List<Bar>();
             barOther = new List<Bar>();
+
+            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Orange);
+            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
+
+            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
+            otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
 
             //Boundary of game
 
@@ -216,7 +216,7 @@ namespace Combat
                 drawables.Add(otherTank);
 
                 drawables.Add(playerTankPartTwo);
-                drawables.Add(otherTankPartTwo);
+                drawables.Add(otherTankPartTwo); 
 
                 foreach (var drawable in drawables)
                 {
@@ -238,7 +238,7 @@ namespace Combat
                 drawables.Add(otherTank);
 
                 drawables.Add(playerTankPartTwo);
-                drawables.Add(otherTankPartTwo);
+                drawables.Add(otherTankPartTwo); 
 
                 foreach (var drawables in drawables)
                 {
@@ -374,10 +374,6 @@ namespace Combat
                     {
                         gameOver = true;
                     }
-                }
-                else
-                {
-                    //Need to have a game over option here
                 }
 
                 //----------------------Collision-----------------------
@@ -837,7 +833,7 @@ namespace Combat
                 if (mapNum == 1)
                 {
                     //map color
-                    canvas.FillRectangle(X, Y, Height, Width, Colors.Green);
+                    //canvas.FillRectangle(X, Y, Height, Width, Colors.Green);
                     //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
                     canvas.FillRectangle(195, 120, 50, 500, Colors.Cyan);  //1
                     canvas.FillRectangle(145, 120, 100, 50, Colors.Cyan);   //2
@@ -858,7 +854,7 @@ namespace Combat
                 if (mapNum == 2)
                 {
                     //map color
-                    canvas.FillRectangle(X, Y, Height, Width, Colors.Black);
+                    //canvas.FillRectangle(X, Y, Height, Width, Colors.Black);
 
                     //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
 
@@ -880,7 +876,7 @@ namespace Combat
                 if (mapNum == 3)
                 {
                     //map color
-                    canvas.FillRectangle(X, Y, Height, Width, Colors.DarkRed);
+                    //canvas.FillRectangle(X, Y, Height, Width, Colors.DarkRed);
 
                     //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
 
@@ -902,7 +898,6 @@ namespace Combat
                 }
             }
         }
-
 
         //This is the score keeper for the character
         public class Bar : IDrawable

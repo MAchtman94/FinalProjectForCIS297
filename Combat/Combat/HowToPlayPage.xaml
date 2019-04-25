@@ -11,7 +11,6 @@
     <Grid KeyDown="Grid_KeyDown">
         <MediaElement x:Name="myMedia" Source="Test.mp3" AutoPlay="True" Height="0" Width="0" Volume="100"  />
         <Button HorizontalAlignment="Center" VerticalAlignment="Top" Height="71" Width="395" Click="BackButton" Margin="0,106,0,0">Return to Main Page</Button>
-        <TextBox HorizontalAlignment="Left" Height="384" Margin="344,355,0,0" Text="Welcome to the game combat!" VerticalAlignment="Top" Width="823"/>
         <TextBlock HorizontalAlignment="Left" Margin="169,240,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Name="TextHowTo" Width="822" Height="424"/>
     </Grid>
 </Page>
