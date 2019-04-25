@@ -145,7 +145,7 @@ namespace Combat
                     playerTank.IsLeft = false;
                     playerTank.IsRight = true;
                     break;
-                case 'E': playerTank.TankIsShooting = true;
+                case 'V': playerTank.TankIsShooting = true;
                     break;
 
                 case 'I':
@@ -164,7 +164,7 @@ namespace Combat
                     otherTank.IsLeft = false;
                     otherTank.IsRight = true;
                     break;
-                case 'O':
+                case 'B':
                     otherTank.TankIsShooting = true;
                     break;
             }
@@ -566,57 +566,63 @@ namespace Combat
 
                     if (playerTank.TankIsShooting == true)
                     {
-                        //Looking at the instance of the bullets
-                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, playerTank.Colors);
-
-                        if (playerTank.IsUp)
+                        if (!(playerBullets.Count() > 3))
                         {
-                            playerBullet.TravelingUpward = true;
-                            if(playerTank.IsLeft) { playerBullet.DiagnolTravelLeft = true; }
-                            if(playerTank.IsRight) { playerBullet.DiagnolTravelRight = true; }
+                            //Looking at the instance of the bullets
+                            var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, playerTank.Colors);
+
+                            if (playerTank.IsUp)
+                            {
+                                playerBullet.TravelingUpward = true;
+                                if (playerTank.IsLeft) { playerBullet.DiagnolTravelLeft = true; }
+                                if (playerTank.IsRight) { playerBullet.DiagnolTravelRight = true; }
+                            }
+                            else if (playerTank.IsDown)
+                            {
+                                playerBullet.TravelingDownward = true;
+                                if (playerTank.IsLeft) { playerBullet.DiagnolTravelLeft = true; }
+                                if (playerTank.IsRight) { playerBullet.DiagnolTravelRight = true; }
+                            }
+                            else if (playerTank.IsLeft) { playerBullet.TravelingLeftWard = true; }
+
+
+                            //Include traveling before adding to list
+                            playerBullets.Add(playerBullet);
+
+                            drawables.Add(playerBullet);
+
+                            playerTank.TankIsShooting = false;
                         }
-                        else if (playerTank.IsDown)
-                        {
-                            playerBullet.TravelingDownward = true;
-                            if (playerTank.IsLeft) { playerBullet.DiagnolTravelLeft = true; }
-                            if (playerTank.IsRight) { playerBullet.DiagnolTravelRight = true; }
-                        }
-                        else if(playerTank.IsLeft) {playerBullet.TravelingLeftWard = true;}
-
-
-                        //Include traveling before adding to list
-                        playerBullets.Add(playerBullet);
-
-                        drawables.Add(playerBullet);
-
-                        playerTank.TankIsShooting = false;
                     }
 
                     if (otherTank.TankIsShooting == true)
                     {
-                        //Looking at the instance of the bullets
-                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, otherTank.Colors);
-
-                        if (otherTank.IsUp)
+                        if (!(otherBullets.Count() > 3))
                         {
-                            otherBullet.TravelingUpward = true;
-                            if (otherTank.IsLeft) { otherBullet.DiagnolTravelLeft = true; }
-                            if (otherTank.IsRight) { otherBullet.DiagnolTravelRight = true; }
+                            //Looking at the instance of the bullets
+                            var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, otherTank.Colors);
+
+                            if (otherTank.IsUp)
+                            {
+                                otherBullet.TravelingUpward = true;
+                                if (otherTank.IsLeft) { otherBullet.DiagnolTravelLeft = true; }
+                                if (otherTank.IsRight) { otherBullet.DiagnolTravelRight = true; }
+                            }
+                            else if (otherTank.IsDown)
+                            {
+                                otherBullet.TravelingDownward = true;
+                                if (otherTank.IsLeft) { otherBullet.DiagnolTravelLeft = true; }
+                                if (otherTank.IsRight) { otherBullet.DiagnolTravelRight = true; }
+                            }
+                            else if (otherTank.IsLeft) { otherBullet.TravelingLeftWard = true; }
+
+
+                            //Include traveling before adding to list
+                            otherBullets.Add(otherBullet);
+
+                            drawables.Add(otherBullet);
+                            otherTank.TankIsShooting = false;
                         }
-                        else if (otherTank.IsDown)
-                        {
-                            otherBullet.TravelingDownward = true;
-                            if (otherTank.IsLeft) { otherBullet.DiagnolTravelLeft = true; }
-                            if (otherTank.IsRight) { otherBullet.DiagnolTravelRight = true; }
-                        }
-                        else if (otherTank.IsLeft) { otherBullet.TravelingLeftWard = true; }
-
-
-                        //Include traveling before adding to list
-                        otherBullets.Add(otherBullet);
-
-                        drawables.Add(otherBullet);
-                        otherTank.TankIsShooting = false;
                     }
 
                     //Movement update for bullets
@@ -635,7 +641,7 @@ namespace Combat
                         gameOver = true;
                     }
                 }
-
+                List<Bullets> BulletsToRemove = new List<Bullets>();
                 //----------------------Keyboard Collision--------------------------------
                 foreach (var bullet in playerBullets)
                 {
@@ -643,52 +649,64 @@ namespace Combat
                     {
                         if (inWall.CollidesBullet(bullet))
                         {
-                            bullet.removeBullet(bullet);
+                            BulletsToRemove.Add(bullet);
                         }
                     }
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.CollidesBullet(bullet))
                         {
-                            bullet.removeBullet(bullet);
+                            BulletsToRemove.Add(bullet);
                         }
                     }
                     
                     if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
                     {
-                        bullet.removeBullet(bullet);
-
-
+                        BulletsToRemove.Add(bullet);
                     }
                     
                 }
+                foreach(var rBullet in BulletsToRemove)
+                {
+                    playerBullets.Remove(rBullet);
+                    drawables.Remove(rBullet);
+                    rBullet.Dispose();
+                }
+                BulletsToRemove.Clear();
                 
                  foreach (var bullet in otherBullets)
                  {
                      
                      foreach (var inWall in interiorWalls)
                      {
-                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                         if (inWall.CollidesBullet(bullet))
                          {
-                             bullet.removeBullet(bullet);
+                            BulletsToRemove.Add(bullet);
                          }
                      }
 
                      foreach (var exWall in exteriorWalls)
                      {
-                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                         if (exWall.CollidesBullet(bullet))
                          {
-                             bullet.removeBullet(bullet);
+                            BulletsToRemove.Add(bullet);
                          }
                      }
                
                 
                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
                     {
-                        bullet.removeBullet(bullet);
+                        BulletsToRemove.Add(bullet);
                     }
-                
+                 }
+                 foreach(var rBullet in BulletsToRemove)
+                {
+                    otherBullets.Remove(rBullet);
+                    drawables.Remove(rBullet);
+                    rBullet.Dispose();
                 }
+                BulletsToRemove.Clear();
+
                 foreach (var wall in exteriorWalls)
                 {
                     if (playerTank.CollidesTop() || playerTankPartTwo.CollidesTop())
@@ -867,7 +885,7 @@ namespace Combat
 
             public bool CollidesBullet(Bullets bull)
             {
-                if (bull.X >= X && bull.X <= (X + Width) && bull.Y >= Y && bull.Y <= (Y + Height))
+                if (bull.X <= X || bull.Y <= Y || bull.X >= X + Width || bull.Y >= Y + Height)
                 {
                     return true;
                 }
@@ -1023,7 +1041,7 @@ namespace Combat
             }
         }
 
-        public class Bullets : IDrawable, ICollidable
+        public class Bullets : IDrawable, ICollidable, IDisposable
         {
             public int X { get; set; }
             public int Y { get; set; }
@@ -1034,6 +1052,8 @@ namespace Combat
             public bool TravelingDownward { get; set; }
             public bool TravelingLeftWard { get; set; }
             public bool TravelingUpward { get; set; }
+
+            public int Speed { get; set; }
 
 
 
@@ -1054,6 +1074,12 @@ namespace Combat
                 TravelingUpward = false;
                 DiagnolTravelLeft = false;
                 DiagnolTravelRight = false;
+                Speed = 5;
+            }
+
+            ~Bullets()
+            {
+                
             }
 
             public void Update()
@@ -1064,38 +1090,38 @@ namespace Combat
                 {
                     if (DiagnolTravelLeft)
                     {
-                        Y += 1;
-                        X -= 1;
+                        Y += Speed;
+                        X -= Speed;
                     }
                     else if (DiagnolTravelRight)
                     {
-                        Y += 1;
-                        X += 1;
+                        Y += Speed;
+                        X += Speed;
                     }
-                    Y += 1;
+                    Y += Speed;
                 }
                 else if (TravelingUpward)
                 {
                     if (DiagnolTravelLeft)
                     {
-                        Y -= 1;
-                        X -= 1;
+                        Y -= Speed;
+                        X -= Speed;
 
                     }
                     else if (DiagnolTravelRight)
                     {
-                        Y -= 1;
-                        X += 1;
+                        Y -= Speed;
+                        X += Speed;
                     }
-                    Y -= 1;
+                    Y -= Speed;
                 }
                 else if (TravelingLeftWard)
                 {
-                    X -= 1;
+                    X -= Speed;
                 }
                 else
                 {
-                    X += 1;
+                    X += Speed;
                 }
             }
 
@@ -1118,6 +1144,10 @@ namespace Combat
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.FillRectangle(X, Y, Height, Width, Color);
+            }
+
+            public void Dispose()
+            {
             }
         }
 
