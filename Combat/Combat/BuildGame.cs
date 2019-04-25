@@ -11,6 +11,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using System.Numerics;
+using Microsoft.Graphics.Canvas.Geometry;
 
 namespace Combat
 {
@@ -804,6 +806,9 @@ namespace Combat
             public int AngleX { get; set; }
             public int AngleY { get; set; }
             public Color Colors { get; set; }
+            //CanvasGeometry myGeometry;
+
+            //Vector2[] Points;
 
             public bool IsUp { get; set;  } 
             public bool IsDown { get; set; }
@@ -826,6 +831,16 @@ namespace Combat
                 AngleX = angleX;
                 AngleY = angleY;
                 Colors = color;
+
+                /*Points[0] = new Vector2(0,13);
+                Points[1] = new Vector2(15, 13);
+                Points[2] = new Vector2(15, 0);
+                Points[3] = new Vector2(25, 0);
+                Points[4] = new Vector2(25, 13);
+                Points[5] = new Vector2(40, 13);
+                Points[6] = new Vector2(40, 40);
+                Points[7] = new Vector2(0, 40);
+                Points[8] = new Vector2(0, 13);*/
             }
             public bool Collides()
             {
