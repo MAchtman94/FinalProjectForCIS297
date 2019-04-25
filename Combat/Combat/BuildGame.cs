@@ -387,13 +387,13 @@ namespace Combat
                 foreach (var bullet in playerBullets)
                 {
                     
-                    foreach (var inWall in interiorWalls)
+                  /*  foreach (var inWall in interiorWalls)
                     {
                         if (bullet.inWallCollides(inWall.X, inWall.Y, inWall.Height, inWall.Width))
                         {
                             bullet.removeBullet(bullet);
                         }
-                    }
+                    } */
                     
                     foreach (var exWall in exteriorWalls)
                     {
@@ -640,13 +640,13 @@ namespace Combat
                 //----------------------Keyboard Collision--------------------------------
                 foreach (var bullet in playerBullets)
                 {
-                    foreach (var inWall in interiorWalls)
+                  /*  foreach (var inWall in interiorWalls)
                     {
                         if (inWall.CollidesBullet(bullet))
                         {
                             BulletsToRemove.Add(bullet);
                         }
-                    }
+                    } */
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.CollidesBullet(bullet))
@@ -672,13 +672,13 @@ namespace Combat
                  foreach (var bullet in otherBullets)
                  {
                      
-                     foreach (var inWall in interiorWalls)
+                   /*  foreach (var inWall in interiorWalls)
                      {
                          if (inWall.CollidesBullet(bullet))
                          {
                             BulletsToRemove.Add(bullet);
                          }
-                     }
+                     } */
 
                      foreach (var exWall in exteriorWalls)
                      {
