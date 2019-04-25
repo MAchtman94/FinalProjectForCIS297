@@ -41,5 +41,12 @@ namespace Combat
         {
             this.Frame.Navigate(typeof(NewGamePage));
         }
+
+
+
+        private void StageEditPage_Navigated(object sender, NavigationEventArgs e)
+        {
+
+        }
     }
 }
