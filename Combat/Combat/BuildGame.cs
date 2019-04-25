@@ -858,9 +858,9 @@ namespace Combat
 
                     //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
 
-                    canvas.FillRectangle(160, 20, 70,100, Colors.LimeGreen); //1
+                    canvas.FillRectangle(160, 21, 70,100, Colors.LimeGreen); //1
                     canvas.FillRectangle(160, 245, 70, 250, Colors.LimeGreen); //2
-                    canvas.FillRectangle(160, 620, 70, 100, Colors.LimeGreen); //3
+                    canvas.FillRectangle(160, 619, 70, 100, Colors.LimeGreen); //3
 
                     canvas.FillRectangle(376,120,70,200, Colors.LimeGreen); //4
                     canvas.FillRectangle(376,420,70,200, Colors.LimeGreen); //5
@@ -868,9 +868,9 @@ namespace Combat
                     canvas.FillRectangle(592,120,70,200, Colors.LimeGreen); //7
                     canvas.FillRectangle(592,420,70,200, Colors.LimeGreen); //8
 
-                    canvas.FillRectangle(810,20,70,100, Colors.LimeGreen); //9
+                    canvas.FillRectangle(810,21,70,100, Colors.LimeGreen); //9
                     canvas.FillRectangle(810,245,70,250, Colors.LimeGreen); //10
-                    canvas.FillRectangle(810,620,70,100, Colors.LimeGreen); //11 
+                    canvas.FillRectangle(810,619,70,100, Colors.LimeGreen); //11 
                 }
 
                 if (mapNum == 3)
@@ -880,21 +880,21 @@ namespace Combat
 
                     //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
 
-                    canvas.FillRectangle(20, 20, 120,120, Yellow); //1
-                    canvas.FillRectangle(20, 600, 120,120, Yellow); //2
+                    canvas.FillRectangle(21, 21, 120,120, Colors.Green); //1
+                    canvas.FillRectangle(21, 599, 120,120, Colors.Green); //2
 
-                    canvas.FillRectangle(260,170,80,400, Yellow); //3
+                    canvas.FillRectangle(260,170,80,400, Colors.Green); //3
 
-                    canvas.FillRectangle(700,170,80,400, Yellow); //4
+                    canvas.FillRectangle(700,170,80,400, Colors.Green); //4
 
-                    canvas.FillRectangle(900, 20, 120,120, Yellow); //5
-                    canvas.FillRectangle(900, 600, 120,120, Yellow); //6
+                    canvas.FillRectangle(899, 21, 120,120, Colors.Green); //5
+                    canvas.FillRectangle(899, 599, 120,120, Colors.Green); //6
 
-                    canvas.FillRectangle(430, 270, 60,60, Yellow); //10
-                    canvas.FillRectangle(550, 270, 60,60, Yellow); //10
-                    canvas.FillRectangle(380, 390, 40,40, Yellow); //10
-                    canvas.FillRectangle(420, 430, 200,40, Yellow); //10
-                    canvas.FillRectangle(620, 390, 40,40, Yellow); //10
+                    canvas.FillRectangle(430, 270, 60,60, Colors.Green); //10
+                    canvas.FillRectangle(550, 270, 60,60, Colors.Green); //10
+                    canvas.FillRectangle(380, 390, 40,40, Colors.Green); //10
+                    canvas.FillRectangle(420, 430, 200,40, Colors.Green); //10
+                    canvas.FillRectangle(620, 390, 40,40, Colors.Green); //10
                 }
             }
         }
