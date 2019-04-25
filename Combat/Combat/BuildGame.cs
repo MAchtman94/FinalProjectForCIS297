@@ -636,18 +636,19 @@ namespace Combat
                     }
                 }
 
+                //----------------------Keyboard Collision--------------------------------
                 foreach (var bullet in playerBullets)
                 {
                     foreach (var inWall in interiorWalls)
                     {
-                        if (inWall.Collides(bullet.X, bullet.Y, bullet.Height, bullet.Width))
+                        if (inWall.CollidesBullet(bullet))
                         {
                             bullet.removeBullet(bullet);
                         }
                     }
                     foreach (var exWall in exteriorWalls)
                     {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                        if (exWall.CollidesBullet(bullet))
                         {
                             bullet.removeBullet(bullet);
                         }
@@ -746,6 +747,7 @@ namespace Combat
                     otherTank.Y = otherTank.Y;
                 }
             }
+            //----------------------^^^Keyboard Collision^^^--------------------------------
 
         }
 
@@ -808,6 +810,7 @@ namespace Combat
             public bool Collides(int x, int y, int height, int width)
             {
                 return true;
+                //if (x > X && x < X + Width && y > Y && y )
             }
             public bool CollidesTop()
             {
@@ -862,6 +865,15 @@ namespace Combat
 
             }
 
+            public bool CollidesBullet(Bullets bull)
+            {
+                if (bull.X >= X && bull.X <= (X + Width) && bull.Y >= Y && bull.Y <= (Y + Height))
+                {
+                    return true;
+                }
+                return false;
+            }
+
             public void Draw(CanvasDrawingSession canvas)
             {
                 canvas.DrawRectangle(X, Y, Height, Width, Color);
@@ -897,6 +909,15 @@ namespace Combat
 
                 //return x == X || x == height; //|| y == Height; //Test statement MAXX
 
+            }
+
+            public bool CollidesBullet(Bullets bull)
+            {
+                if (bull.X >= X && bull.X <= (X + Width) && bull.Y >= Y && bull.Y <= (Y + Height))
+                {
+                    return true;
+                }
+                return false;
             }
 
             public void Draw(CanvasDrawingSession canvas)
@@ -1084,8 +1105,6 @@ namespace Combat
                 bullet.Height = 0;
                 bullet.X = -10;
                 bullet.Y = -10;
-             
-                
             }
             public bool Collides(int x, int y, int height, int width)
             {
