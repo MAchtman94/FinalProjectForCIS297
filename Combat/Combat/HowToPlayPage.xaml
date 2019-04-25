@@ -11,7 +11,7 @@
     <Grid KeyDown="Grid_KeyDown">
         <MediaElement x:Name="myMedia" Source="Test.mp3" AutoPlay="True" Height="0" Width="0" Volume="100"  />
         <Button HorizontalAlignment="Center" VerticalAlignment="Top" Height="71" Width="395" Click="BackButton" Margin="0,106,0,0">Return to Main Page</Button>
-        <TextBlock HorizontalAlignment="Left" Margin="169,240,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Name="TextHowTo" Width="822" Height="424"/>
+        <TextBlock HorizontalAlignment="Left" Margin="449,223,0,0" TextWrapping="Wrap" VerticalAlignment="Top" x:Name="TextHowTo" Width="343" Height="424"><Run Text="For Keyboard Controls"/><LineBreak/><Run Text="          Player 1:"/><LineBreak/><Run Text="W = Up"/><LineBreak/><Run Text="A = Left"/><LineBreak/><Run Text="S = Down"/><LineBreak/><Run Text="D = Right"/><LineBreak/><Run Text="V = Shoot"/><LineBreak/><Run/><LineBreak/><Run Text="        Player 2:"/><LineBreak/><Run Text="I = Up"/><LineBreak/><Run Text="J = Left"/><LineBreak/><Run Text="K = Down"/><LineBreak/><Run Text="L = Right"/><LineBreak/><Run Text="B = Shoot"/></TextBlock>
     </Grid>
 </Page>
  
