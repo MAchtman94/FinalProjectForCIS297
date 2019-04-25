@@ -24,23 +24,29 @@ namespace Combat
     /// </summary>
     public sealed partial class NewGamePage : Page
     {
-        BuildGame buildGame;
-
         public NewGamePage()
         {
             this.InitializeComponent();
-
-            buildGame = new BuildGame();
         }
 
-        private void Canvas_Draw(ICanvasAnimatedControl sender, CanvasAnimatedDrawEventArgs args)
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            buildGame.DrawGame(args.DrawingSession);
+            this.Frame.Navigate(typeof(GameTypeOne));
         }
 
-        private void Canvas_Update(ICanvasAnimatedControl sender, CanvasAnimatedUpdateEventArgs args)
+        private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            buildGame.Update();
+            this.Frame.Navigate(typeof(GameTypeTwo));
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(GameTypeThree));
+        }
+
+        private void Button_Click_3(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(MainPage));
         }
     }
 }

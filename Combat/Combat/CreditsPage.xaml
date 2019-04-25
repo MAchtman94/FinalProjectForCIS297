@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid>
-        <Button HorizontalAlignment="Center" Margin="0,82,0,0" VerticalAlignment="Top" Height="66" Width="271" Click="BackButton">Back to Main Page</Button>
-        <Frame x:Name ="MainPage"></Frame>
+        <Button HorizontalAlignment="Center" Margin="0,82,0,0" VerticalAlignment="Top" Height="66" Width="271" Click="BackButton">Return to Main Page</Button>
+        <TextBlock HorizontalAlignment="Left" Margin="343,278,0,0" Text="TextBlock" TextWrapping="Wrap" VerticalAlignment="Top" Width="528" Height="222" Name="CreditsText"/>
     </Grid>
 </Page>
