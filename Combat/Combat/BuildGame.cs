@@ -13,17 +13,14 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using System.Numerics;
 using Microsoft.Graphics.Canvas.Geometry;
+//using TiledSharp;
 
 namespace Combat
 {
     public class BuildGame
     {
         public int gameTypeToBuild { get; set; }
-        public int getColorTypePlayerOne { get; set; }
-        public int getColorTypePlayerTwo { get; set; }
-        public Color colorTypePlayerOne { get; set; }
-        public Color colorTypePlayerTwo { get; set; }
-        
+        public string gameOverText { get; set; }
 
         private Tank playerTank;
         private Tank otherTank;
@@ -37,8 +34,6 @@ namespace Combat
         private List<InteriorWalls> interiorWalls;
         private List<IDrawable> drawables;
         private List<ICollidable> collidables;
-        private List<IDrawable> drawablesTwo;
-        private List<IDrawable> drawablesThree;
         private bool isShooting;
         private bool gameOver;
         //public int sound { get; set; }
@@ -47,21 +42,10 @@ namespace Combat
 
         public BuildGame()
         {
-            ColorTypePlayerOne();
-            ColorTypePlayerTwo();
-
             drawables = new List<IDrawable>();
-            drawablesTwo = new List<IDrawable>();
-            drawablesThree = new List<IDrawable>();
             exteriorWalls = new List<ExteriorWalls>();
             interiorWalls = new List<InteriorWalls>();
             collidables = new List<ICollidable>();
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, colorTypePlayerOne);
-
-            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
-            otherTank = new Tank(300, 300, 60, 60, 90, 90, colorTypePlayerTwo);
-
-            otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
 
             //Looking at the instance of the bullets
             playerBullets = new List<Bullets>();
@@ -70,92 +54,38 @@ namespace Combat
             barPlayer = new List<Bar>();
             barOther = new List<Bar>();
 
-            //var barPlayerPieceOne = new Bar(5, 5, 10, 10, Colors.Black);
+            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Orange);
+            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
+
+            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
+            otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
 
             //Boundary of game
-            var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
-            var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow);
-            var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
+
+            //var insideWallLeftSide = new InteriorWalls(100, 100, 100, 50, Colors.Black);
             // var insideWallRightSide = new InteriorWalls(100, 50, 50, 100, Colors.Black);
 
             //Adding outside wall
-            drawables.Add(outsideWall);
-            exteriorWalls.Add(outsideWall);
-            drawables.Add(fillInWall);
+
             //interiorWalls.Add(fillInWall);
-            drawables.Add(insideWallLeftSide);
-            interiorWalls.Add(insideWallLeftSide);
+            //drawables.Add(insideWallLeftSide);
+            //interiorWalls.Add(insideWallLeftSide);
             // drawables.Add(insideWallRightSide);
             // interiorWalls.Add(insideWallRightSide);
             //sound = 0;
 
-            drawables.Add(playerTank);
-            drawables.Add(otherTank);
-
-            drawablesTwo.Add(playerTank);
-            drawablesTwo.Add(otherTank);
-
-            drawables.Add(playerTankPartTwo);
-            drawables.Add(otherTankPartTwo);
-
-            drawablesTwo.Add(playerTankPartTwo);
-            drawablesTwo.Add(otherTankPartTwo);
-
             CreateHealth();
             CreateHealthForOther();
-        }
-        
-        public void ColorTypePlayerOne()
-        {
-            if (getColorTypePlayerOne == 1)
-            {
-                colorTypePlayerOne = Colors.Orange;
-            }
-            else if (getColorTypePlayerOne == 2)
-            {
-                colorTypePlayerOne = Colors.Black;
-            }
-            else if (getColorTypePlayerOne == 3)
-            {
-                colorTypePlayerOne = Colors.Purple;
-            }
-            else
-            {
-                colorTypePlayerOne = Colors.Pink;
-            }
-
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, colorTypePlayerOne);
-            playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
-        }
-
-        public void ColorTypePlayerTwo()
-        {
-            if (getColorTypePlayerTwo == 1)
-            {
-                colorTypePlayerTwo = Colors.Orange;
-            }
-            else if (getColorTypePlayerTwo == 2)
-            {
-                colorTypePlayerTwo = Colors.Black;
-            }
-            else if (getColorTypePlayerTwo == 3)
-            {
-                colorTypePlayerTwo = Colors.Purple;
-            }
-            else
-            {
-                colorTypePlayerTwo = Colors.Pink;
-            }
         }
 
         //Creating player one health bar
         public void CreateHealth()
         {
-            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, colorTypePlayerOne);
-            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, colorTypePlayerOne);
+            var barValuePlayerOnePartOne = new Bar(20, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartTwo = new Bar(30, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartThree = new Bar(40, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartFour = new Bar(50, 5, 10, 10, playerTank.Colors);
+            var barValuePlayerOnePartFive = new Bar(60, 5, 10, 10, playerTank.Colors);
 
             barPlayer.Add(barValuePlayerOnePartFive);
             barPlayer.Add(barValuePlayerOnePartFour);
@@ -168,28 +98,16 @@ namespace Combat
             drawables.Add(barValuePlayerOnePartThree);
             drawables.Add(barValuePlayerOnePartTwo);
             drawables.Add(barValuePlayerOnePartOne);
-
-            drawablesTwo.Add(barValuePlayerOnePartFive);
-            drawablesTwo.Add(barValuePlayerOnePartFour);
-            drawablesTwo.Add(barValuePlayerOnePartThree);
-            drawablesTwo.Add(barValuePlayerOnePartTwo);
-            drawablesTwo.Add(barValuePlayerOnePartOne);
-
-            drawablesThree.Add(barValuePlayerOnePartFive);
-            drawablesThree.Add(barValuePlayerOnePartFour);
-            drawablesThree.Add(barValuePlayerOnePartThree);
-            drawablesThree.Add(barValuePlayerOnePartTwo);
-            drawablesThree.Add(barValuePlayerOnePartOne);
         }
 
 		//Creating player two health bar
         public void CreateHealthForOther()
         {
-            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, colorTypePlayerTwo);
-            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, colorTypePlayerTwo);
+            var barValueOtherOnePartOne = new Bar(940, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartTwo = new Bar(950, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartThree = new Bar(960, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartFour = new Bar(970, 5, 10, 10, otherTank.Colors);
+            var barValueOtherOnePartFive = new Bar(980, 5, 10, 10, otherTank.Colors);
 
             barOther.Add(barValueOtherOnePartOne);
             barOther.Add(barValueOtherOnePartTwo);
@@ -202,18 +120,6 @@ namespace Combat
             drawables.Add(barValueOtherOnePartThree);
             drawables.Add(barValueOtherOnePartFour);
             drawables.Add(barValueOtherOnePartFive);
-
-            drawablesTwo.Add(barValueOtherOnePartOne);
-            drawablesTwo.Add(barValueOtherOnePartTwo);
-            drawablesTwo.Add(barValueOtherOnePartThree);
-            drawablesTwo.Add(barValueOtherOnePartFour);
-            drawablesTwo.Add(barValueOtherOnePartFive);
-
-            drawablesThree.Add(barValueOtherOnePartOne);
-            drawablesThree.Add(barValueOtherOnePartTwo);
-            drawablesThree.Add(barValueOtherOnePartThree);
-            drawablesThree.Add(barValueOtherOnePartFour);
-            drawablesThree.Add(barValueOtherOnePartFive);
         }
 
         
@@ -295,6 +201,76 @@ namespace Combat
                     break;
             }
         }
+        //Draw the game
+        public void DrawGame(CanvasDrawingSession canvas)
+        {
+            //If we want game one, build it like this
+            if (gameTypeToBuild == 1)
+            {
+                var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
+                var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow, 1);
+
+                drawables.Add(outsideWall);
+                exteriorWalls.Add(outsideWall);
+                drawables.Add(fillInWall);
+
+                drawables.Add(playerTank);
+                drawables.Add(otherTank);
+
+                drawables.Add(playerTankPartTwo);
+                drawables.Add(otherTankPartTwo); 
+
+                foreach (var drawable in drawables)
+                {
+                    drawable.Draw(canvas);
+                }
+            }
+
+            //If we want game two, build it like this
+            else if (gameTypeToBuild == 2)
+            {
+                var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
+                var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow, 2);
+
+                drawables.Add(outsideWall);
+                exteriorWalls.Add(outsideWall);
+                drawables.Add(fillInWall);
+
+                drawables.Add(playerTank);
+                drawables.Add(otherTank);
+
+                drawables.Add(playerTankPartTwo);
+                drawables.Add(otherTankPartTwo); 
+
+                foreach (var drawables in drawables)
+                {
+                    drawables.Draw(canvas);
+                }
+            }
+
+            //If we want to build game three
+            else
+            {
+                var outsideWall = new ExteriorWalls(20, 20, 1000, 700, Colors.Black);
+                var fillInWall = new InteriorWalls(outsideWall.X, outsideWall.Y, outsideWall.Height, outsideWall.Width, Colors.GreenYellow, 3);
+
+                drawables.Add(outsideWall);
+                exteriorWalls.Add(outsideWall);
+                drawables.Add(fillInWall);
+
+                drawables.Add(playerTank);
+                drawables.Add(otherTank);
+
+                drawables.Add(playerTankPartTwo);
+                drawables.Add(otherTankPartTwo);
+
+                foreach (var drawables in drawables)
+                {
+                    drawables.Draw(canvas);
+                }
+            }
+        }
+
         public void Update()
         {
             //********************GAMEPAD CONTROL**************************/
@@ -337,32 +313,11 @@ namespace Combat
                         foreach (var health in barPlayer.ToList())
                         {
                             //Only the first instance in the list will be removed
-                            if (gameTypeToBuild == 1)
+                            if (hit == true)
                             {
-                                if (hit == true)
-                                {
-                                    barPlayer.Remove(health);
-                                    drawables.Remove(health);
-                                    hit = false;
-                                }
-                            }
-                            else if (gameTypeToBuild == 2)
-                            {
-                                if (hit == true)
-                                {
-                                    barPlayer.Remove(health);
-                                    drawablesTwo.Remove(health);
-                                    hit = false;
-                                }
-                            }
-                            else
-                            {
-                                if (hit == true)
-                                {
-                                    barPlayer.Remove(health);
-                                    drawablesThree.Remove(health);
-                                    hit = false;
-                                }
+                                barPlayer.Remove(health);
+                                drawables.Remove(health);
+                                hit = false;
                             }
                         }
                     }
@@ -372,41 +327,13 @@ namespace Combat
                     {
                         bool hit = true;
 
-                        if (gameTypeToBuild == 1)
+                        foreach (var health in barOther.ToList())
                         {
-                            foreach (var health in barOther.ToList())
+                            if (hit == true)
                             {
-                                if (hit == true)
-                                {
-                                    barOther.Remove(health);
-                                    drawables.Remove(health);
-                                    hit = false;
-                                }
-                            }
-                        }
-
-                        else if (gameTypeToBuild == 2)
-                        {
-                            foreach (var health in barOther.ToList())
-                            {
-                                if (hit == true)
-                                {
-                                    barOther.Remove(health);
-                                    drawablesTwo.Remove(health);
-                                    hit = false;
-                                }
-                            }
-                        }
-                        else
-                        {
-                            foreach (var health in barOther.ToList())
-                            {
-                                if (hit == true)
-                                {
-                                    barOther.Remove(health);
-                                    drawablesThree.Remove(health);
-                                    hit = false;
-                                }
+                                barOther.Remove(health);
+                                drawables.Remove(health);
+                                hit = false;
                             }
                         }
                     }
@@ -415,8 +342,8 @@ namespace Combat
                     if (controls.Buttons.HasFlag(GamepadButtons.B))
                     {
                         //Looking at the instance of the bullets
-                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, colorTypePlayerOne);
-                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, colorTypePlayerTwo);
+                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, playerTank.Colors);
+                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, otherTank.Colors);
 
                         otherBullet.TravelingLeftWard = true;
 
@@ -424,21 +351,8 @@ namespace Combat
                         playerBullets.Add(playerBullet);
                         otherBullets.Add(otherBullet);
 
-                        if (gameTypeToBuild == 1)
-                        {
-                            drawables.Add(playerBullet);
-                            drawables.Add(otherBullet);
-                        }
-                        else if (gameTypeToBuild == 2)
-                        {
-                            drawablesTwo.Add(playerBullet);
-                            drawablesTwo.Add(otherBullet);
-                        }
-                        else
-                        {
-                            drawablesThree.Add(playerBullet);
-                            drawablesThree.Add(otherBullet);
-                        }
+                        drawables.Add(playerBullet);
+                        drawables.Add(otherBullet);
 
                         isShooting = true;
                     }
@@ -463,28 +377,17 @@ namespace Combat
                         gameOver = true;
                     }
                 }
-                else
-                {
-                    
-                }
 
-                //Testing if bullet collides with walls, internal and external
-                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-
-                // if (itCollides)
-                // {
-
+                //----------------------Collision-----------------------
                 foreach (var bullet in playerBullets)
                 {
-                    /*
                     foreach (var inWall in interiorWalls)
                     {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        if (inWall.Collides(bullet.X, bullet.Y, bullet.Height, bullet.Width))
                         {
                             bullet.removeBullet(bullet);
                         }
                     }
-                    */
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -501,7 +404,7 @@ namespace Combat
                     }
                     */
                 }
-
+               /*
                 foreach (var bullet in otherBullets)
                 {
                     /*
@@ -512,7 +415,7 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
-                    */
+                    
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -520,15 +423,16 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+              */      
                     /*
                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
                     {
                         bullet.removeBullet(bullet);
                     }
                     */
-                }
-                foreach (var wall in exteriorWalls)
-                {
+                //}
+            foreach (var wall in exteriorWalls)
+            {
                     if (playerTank.CollidesTop() || playerTankPartTwo.CollidesTop())
                     {
                         playerTank.Y = playerTank.Y + 15;
@@ -550,9 +454,33 @@ namespace Combat
                         playerTankPartTwo.X = playerTankPartTwo.X - 15;
                     }
                 }
+            foreach (var wall in exteriorWalls)
+            {
+                if (otherTank.CollidesTop() || otherTankPartTwo.CollidesTop())
+                {
+                    otherTank.Y = otherTank.Y + 15;
+                    otherTankPartTwo.Y = otherTankPartTwo.Y + 15;
+                }
+                if (otherTank.CollidesBottom() || otherTankPartTwo.CollidesBottom())
+                {
+                    otherTank.Y = otherTank.Y - 15;
+                    otherTankPartTwo.Y = otherTankPartTwo.Y - 15;
+                }
+                if (otherTank.CollidesLeft() || otherTankPartTwo.CollidesLeft())
+                {
+                    otherTank.X = otherTank.X + 15;
+                    otherTankPartTwo.X = otherTankPartTwo.X + 15;
+                }
+                if (otherTank.CollidesRight() || otherTankPartTwo.CollidesRight())
+                {
+                    otherTank.X = otherTank.X - 15;
+                    otherTankPartTwo.X = otherTankPartTwo.X - 15;
+                }
+            }
 
-               /*
-                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+
+
+            if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
                 {
                     playerTank.X = playerTank.X;
                     playerTank.Y = playerTank.Y;
@@ -560,8 +488,9 @@ namespace Combat
                     otherTank.X = otherTank.X;
                     otherTank.Y = otherTank.Y;
                 }
-                */
                 
+                //----------------------^^^Collision^^^--------------------------------
+
                 //bool isButtonPressed;
             }
 
@@ -638,7 +567,7 @@ namespace Combat
                     if (playerTank.TankIsShooting == true)
                     {
                         //Looking at the instance of the bullets
-                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, colorTypePlayerOne);
+                        var playerBullet = new Bullets(playerTank.X + 65, playerTank.Y + 25, 10, 10, playerTank.Colors);
 
                         if (playerTank.IsUp)
                         {
@@ -666,7 +595,7 @@ namespace Combat
                     if (otherTank.TankIsShooting == true)
                     {
                         //Looking at the instance of the bullets
-                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, colorTypePlayerTwo);
+                        var otherBullet = new Bullets(otherTank.X - 30, otherTank.Y + 25, 10, 10, otherTank.Colors);
 
                         if (otherTank.IsUp)
                         {
@@ -707,83 +636,53 @@ namespace Combat
                     }
                 }
 
-                //Testing if bullet collides with walls, internal and external
-                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-                foreach (var bullet in playerBullets)
-                {
-                    foreach (var inWall in interiorWalls)
-                    {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    foreach (var exWall in exteriorWalls)
-                    {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
-                    {
-                        bullet.removeBullet(bullet);
-                    }
-                }
-                foreach (var bullet in otherBullets)
-                {
-                    foreach (var inWall in interiorWalls)
-                    {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    foreach (var exWall in exteriorWalls)
-                    {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
-                    {
-                        bullet.removeBullet(bullet);
-                    }
-                }
+                //Not sure who the author is of this below -> Chris C.
+                /*
+                 foreach (var bullet in playerBullets)
+                 {
+                     foreach (var inWall in interiorWalls)
+                     {
+                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     foreach (var exWall in exteriorWalls)
+                     {
+                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
+                     {
+                         bullet.removeBullet(bullet);
+                     }
+                 }
+                 foreach (var bullet in otherBullets)
+                 {
+                     foreach (var inWall in interiorWalls)
+                     {
+                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     foreach (var exWall in exteriorWalls)
+                     {
+                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                     {
+                         bullet.removeBullet(bullet);
+                     }
+                 }
+                 */
             }
 
-        }
-
-        //Draw the game
-        public void DrawGame(CanvasDrawingSession canvas)
-        {
-            //If we want game one, build it like this
-            if (gameTypeToBuild == 1)
-            {
-                foreach (var drawable in drawables)
-                {
-                    drawable.Draw(canvas);
-                }
-            }
-
-            //If we want game two, build it like this
-            else if (gameTypeToBuild == 2)
-            {
-                foreach (var drawables in drawablesTwo)
-                {
-                    drawables.Draw(canvas);
-                }
-            }
-
-            //If we want to build game three
-            else
-            {
-                foreach (var drawables in drawablesThree)
-                {
-                    drawables.Draw(canvas);
-                }
-            }
         }
 
         public interface IDrawable
@@ -797,7 +696,7 @@ namespace Combat
         }
 
         //Character player
-        public class Tank :  IDrawable
+        public class Tank : ICollidable, IDrawable
         {
             public int X { get; set; }
             public int Y { get; set; }
@@ -842,7 +741,7 @@ namespace Combat
                 Points[7] = new Vector2(0, 40);
                 Points[8] = new Vector2(0, 13);*/
             }
-            public bool Collides()
+            public bool Collides(int x, int y, int height, int width)
             {
                 return true;
             }
@@ -912,21 +811,25 @@ namespace Combat
             public int Height { get; set; }
             public int Width { get; set; }
             public Color Color { get; set; }
+            public int mapNum { get; set; }
 
-            public InteriorWalls(int x, int y, int height, int width, Color color)
+
+            public InteriorWalls(int x, int y, int height, int width, Color color, int mapNum)
             {
                 X = x;
                 Y = y;
                 Height = height;
                 Width = width;
                 Color = color;
+                this.mapNum = mapNum;
+
             }
 
             public bool Collides(int x, int y, int height, int width)
             {
                 // Same idea/concept of exterior wall collision function
 
-                return x >= X && x <= Width && y >= Y && y <= Height;
+                return (x >= Height && (x <= Height + X)) && ((y <= Width + Y) && y >= Width);
 
                 //return x == X || x == height; //|| y == Height; //Test statement MAXX
 
@@ -934,10 +837,82 @@ namespace Combat
 
             public void Draw(CanvasDrawingSession canvas)
             {
-                canvas.FillRectangle(X, Y, Height, Width, Color);
+                //MAP #1
+                Color Blue = Colors.Blue;
+                Color Red = Colors.Red;
+                Color LimeGrn = Colors.LimeGreen;
+                Color Yellow = Colors.Yellow;
+                Color Black = Colors.Black;
+
+
+                if (mapNum == 1)
+                {
+                    //map color
+                    //canvas.FillRectangle(X, Y, Height, Width, Colors.Green);
+                    //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
+                    canvas.FillRectangle(195, 120, 50, 500, Colors.Cyan);  //1
+                    canvas.FillRectangle(145, 120, 100, 50, Colors.Cyan);   //2
+                    canvas.FillRectangle(145, 570, 75, 50, Colors.Cyan);   //3
+
+                    canvas.FillRectangle(460, 20, 120, 100, Colors.Cyan);   //4
+                    canvas.FillRectangle(460, 220, 120, 100, Colors.Cyan);   //5
+                    canvas.FillRectangle(460, 420, 120, 100, Colors.Cyan);   //6
+                    canvas.FillRectangle(460, 620, 120, 100, Colors.Cyan);   //7
+
+
+                    canvas.FillRectangle(795, 120, 50, 500, Colors.Cyan);   //8
+                    canvas.FillRectangle(820, 120, 75, 50, Colors.Cyan);   //9
+                    canvas.FillRectangle(820, 570, 75, 50, Colors.Cyan);   //10 */
+
+                }
+
+                if (mapNum == 2)
+                {
+                    //map color
+                    //canvas.FillRectangle(X, Y, Height, Width, Colors.Black);
+
+                    //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
+
+                    canvas.FillRectangle(160, 20, 70,100, Colors.LimeGreen); //1
+                    canvas.FillRectangle(160, 245, 70, 250, Colors.LimeGreen); //2
+                    canvas.FillRectangle(160, 620, 70, 100, Colors.LimeGreen); //3
+
+                    canvas.FillRectangle(376,120,70,200, Colors.LimeGreen); //4
+                    canvas.FillRectangle(376,420,70,200, Colors.LimeGreen); //5
+
+                    canvas.FillRectangle(592,120,70,200, Colors.LimeGreen); //7
+                    canvas.FillRectangle(592,420,70,200, Colors.LimeGreen); //8
+
+                    canvas.FillRectangle(810,20,70,100, Colors.LimeGreen); //9
+                    canvas.FillRectangle(810,245,70,250, Colors.LimeGreen); //10
+                    canvas.FillRectangle(810,620,70,100, Colors.LimeGreen); //11 
+                }
+
+                if (mapNum == 3)
+                {
+                    //map color
+                    //canvas.FillRectangle(X, Y, Height, Width, Colors.DarkRed);
+
+                    //starts at x = 20, y = 20, height(x) = 1000, width(y) = 700, use Colors.???
+
+                    canvas.FillRectangle(20, 20, 120,120, Yellow); //1
+                    canvas.FillRectangle(20, 600, 120,120, Yellow); //2
+
+                    canvas.FillRectangle(260,170,80,400, Yellow); //3
+
+                    canvas.FillRectangle(700,170,80,400, Yellow); //4
+
+                    canvas.FillRectangle(900, 20, 120,120, Yellow); //5
+                    canvas.FillRectangle(900, 600, 120,120, Yellow); //6
+
+                    canvas.FillRectangle(430, 270, 60,60, Yellow); //10
+                    canvas.FillRectangle(550, 270, 60,60, Yellow); //10
+                    canvas.FillRectangle(380, 390, 40,40, Yellow); //10
+                    canvas.FillRectangle(420, 430, 200,40, Yellow); //10
+                    canvas.FillRectangle(620, 390, 40,40, Yellow); //10
+                }
             }
         }
-
 
         //This is the score keeper for the character
         public class Bar : IDrawable
