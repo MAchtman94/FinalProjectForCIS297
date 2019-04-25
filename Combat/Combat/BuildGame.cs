@@ -56,10 +56,10 @@ namespace Combat
             barPlayer = new List<Bar>();
             barOther = new List<Bar>();
 
-            playerTank = new Tank(30, 30, 60, 60, 90, 90, Colors.Orange);
+            playerTank = new Tank(30, 300, 60, 60, 90, 90, Colors.Orange);
             playerTankPartTwo = new Tank(playerTank.X, playerTank.Y + 20, playerTank.Height + 50, playerTank.Width - 40, 90, 90, playerTank.Colors);
 
-            otherTank = new Tank(300, 300, 60, 60, 90, 90, Colors.Blue);
+            otherTank = new Tank(930, 300, 60, 60, 90, 90, Colors.Blue);
             otherTankPartTwo = new Tank(otherTank.X - 50, otherTank.Y + 20, otherTank.Height + 50, otherTank.Width - 40, 90, 90, otherTank.Colors);
 
             //Boundary of game
