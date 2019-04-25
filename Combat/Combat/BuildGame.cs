@@ -419,23 +419,16 @@ namespace Combat
                     
                 }
 
-                //Testing if bullet collides with walls, internal and external
-                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-
-                // if (itCollides)
-                // {
-
+                //----------------------Collision-----------------------
                 foreach (var bullet in playerBullets)
                 {
-                    /*
                     foreach (var inWall in interiorWalls)
                     {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                        if (inWall.Collides(bullet.X, bullet.Y, bullet.Height, bullet.Width))
                         {
                             bullet.removeBullet(bullet);
                         }
                     }
-                    */
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -452,7 +445,7 @@ namespace Combat
                     }
                     */
                 }
-
+               /*
                 foreach (var bullet in otherBullets)
                 {
                     /*
@@ -463,7 +456,7 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
-                    */
+                    
                     foreach (var exWall in exteriorWalls)
                     {
                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
@@ -471,15 +464,16 @@ namespace Combat
                             bullet.removeBullet(bullet);
                         }
                     }
+              */      
                     /*
                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
                     {
                         bullet.removeBullet(bullet);
                     }
                     */
-                }
-                foreach (var wall in exteriorWalls)
-                {
+                //}
+            foreach (var wall in exteriorWalls)
+            {
                     if (playerTank.CollidesTop() || playerTankPartTwo.CollidesTop())
                     {
                         playerTank.Y = playerTank.Y + 15;
@@ -501,9 +495,33 @@ namespace Combat
                         playerTankPartTwo.X = playerTankPartTwo.X - 15;
                     }
                 }
+            foreach (var wall in exteriorWalls)
+            {
+                if (otherTank.CollidesTop() || otherTankPartTwo.CollidesTop())
+                {
+                    otherTank.Y = otherTank.Y + 15;
+                    otherTankPartTwo.Y = otherTankPartTwo.Y + 15;
+                }
+                if (otherTank.CollidesBottom() || otherTankPartTwo.CollidesBottom())
+                {
+                    otherTank.Y = otherTank.Y - 15;
+                    otherTankPartTwo.Y = otherTankPartTwo.Y - 15;
+                }
+                if (otherTank.CollidesLeft() || otherTankPartTwo.CollidesLeft())
+                {
+                    otherTank.X = otherTank.X + 15;
+                    otherTankPartTwo.X = otherTankPartTwo.X + 15;
+                }
+                if (otherTank.CollidesRight() || otherTankPartTwo.CollidesRight())
+                {
+                    otherTank.X = otherTank.X - 15;
+                    otherTankPartTwo.X = otherTankPartTwo.X - 15;
+                }
+            }
 
-               /*
-                if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
+
+
+            if (playerTank.Collides(otherTank.X, otherTank.Y, playerTank.Height, playerTank.Width) || otherTank.Collides(playerTank.X, playerTank.X, playerTank.Height, playerTank.Width))
                 {
                     playerTank.X = playerTank.X;
                     playerTank.Y = playerTank.Y;
@@ -511,8 +529,9 @@ namespace Combat
                     otherTank.X = otherTank.X;
                     otherTank.Y = otherTank.Y;
                 }
-                */
                 
+                //----------------------^^^Collision^^^--------------------------------
+
                 //bool isButtonPressed;
             }
 
@@ -658,50 +677,51 @@ namespace Combat
                     }
                 }
 
-                //Testing if bullet collides with walls, internal and external
-                //Issue might arise since foreach can't be used such as "var bullets in player bullets", and if one bullet collides, all of the players bullets might be erased.
-                foreach (var bullet in playerBullets)
-                {
-                    foreach (var inWall in interiorWalls)
-                    {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    foreach (var exWall in exteriorWalls)
-                    {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
-                    {
-                        bullet.removeBullet(bullet);
-                    }
-                }
-                foreach (var bullet in otherBullets)
-                {
-                    foreach (var inWall in interiorWalls)
-                    {
-                        if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    foreach (var exWall in exteriorWalls)
-                    {
-                        if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
-                        {
-                            bullet.removeBullet(bullet);
-                        }
-                    }
-                    if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
-                    {
-                        bullet.removeBullet(bullet);
-                    }
-                }
+                //Not sure who the author is of this below -> Chris C.
+                /*
+                 foreach (var bullet in playerBullets)
+                 {
+                     foreach (var inWall in interiorWalls)
+                     {
+                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     foreach (var exWall in exteriorWalls)
+                     {
+                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     if (bullet.Collides(otherTank.X, otherTank.Y, bullet.Height, bullet.Width))
+                     {
+                         bullet.removeBullet(bullet);
+                     }
+                 }
+                 foreach (var bullet in otherBullets)
+                 {
+                     foreach (var inWall in interiorWalls)
+                     {
+                         if (inWall.Collides(bullet.X, bullet.Y, inWall.Height, inWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     foreach (var exWall in exteriorWalls)
+                     {
+                         if (exWall.Collides(bullet.X, bullet.Y, exWall.Height, exWall.Width))
+                         {
+                             bullet.removeBullet(bullet);
+                         }
+                     }
+                     if (bullet.Collides(playerTank.X, playerTank.Y, bullet.Height, bullet.Width))
+                     {
+                         bullet.removeBullet(bullet);
+                     }
+                 }
+                 */
             }
 
         }
@@ -748,7 +768,7 @@ namespace Combat
         }
 
         //Character player
-        public class Tank :  IDrawable
+        public class Tank : ICollidable, IDrawable
         {
             public int X { get; set; }
             public int Y { get; set; }
@@ -780,7 +800,7 @@ namespace Combat
                 AngleY = angleY;
                 Colors = color;
             }
-            public bool Collides()
+            public bool Collides(int x, int y, int height, int width)
             {
                 return true;
             }
@@ -864,7 +884,7 @@ namespace Combat
             {
                 // Same idea/concept of exterior wall collision function
 
-                return x >= X && x <= Width && y >= Y && y <= Height;
+                return (x >= Height && (x <= Height + X)) && ((y <= Width + Y) && y >= Width);
 
                 //return x == X || x == height; //|| y == Height; //Test statement MAXX
 
