@@ -157,6 +157,9 @@
     <Content Include="Assets\Background.mp3" />
     <Content Include="Assets\explosion.mp3" />
     <Content Include="Assets\GameOver.mp3" />
+    <Content Include="Assets\MapOne.PNG" />
+    <Content Include="Assets\MapThree.PNG" />
+    <Content Include="Assets\MapTwo.PNG" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
